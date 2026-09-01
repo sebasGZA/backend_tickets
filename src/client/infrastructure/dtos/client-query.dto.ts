@@ -1,4 +1,5 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
+import { Type } from "class-transformer";
 import { IsNumber, IsOptional, IsString, Min } from "class-validator";
 
 export class ClientQueryDto {
@@ -12,6 +13,7 @@ export class ClientQueryDto {
     @ApiPropertyOptional({
         description: 'Enter the page to find'
     })
+    @Type(() => Number)
     @IsOptional()
     @Min(1)
     @IsNumber()
@@ -20,6 +22,7 @@ export class ClientQueryDto {
     @ApiPropertyOptional({
         description: 'Enter the limit rows to find'
     })
+    @Type(() => Number)
     @IsOptional()
     @Min(1)
     @IsNumber()
