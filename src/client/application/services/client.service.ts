@@ -1,0 +1,31 @@
+import { QueryClient } from './../../domain/dtos/query-client.interface';
+import { Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+
+import { CLIENT_REPOSITORY, type ClientRepositoryPort } from "../../domain/ports/repositories/client-repository.port";
+import { Client } from "../../domain/entities/client.entity";
+import { CreateClient } from "../../domain/dtos/create-client.interface";
+
+@Injectable()
+export class ClientService {
+    private readonly logger: Logger;
+    constructor(
+        @Inject(CLIENT_REPOSITORY)
+        private readonly clientRepo: ClientRepositoryPort
+    ) {
+        this.logger = new Logger(ClientService.name)
+    }
+
+    async create({ name, email }: CreateClient) {
+        try {
+            const client = Client.create(name, email)
+            await this.clientRepo.save(client)
+        } catch (error: any) {
+            this.logger.error(error)
+            throw new InternalServerErrorException(error.mesage)
+        }
+    }
+
+    getClients(queryClient: QueryClient) {
+        return this.clientRepo.findAll(queryClient);
+    }
+}

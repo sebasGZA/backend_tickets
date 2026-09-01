@@ -14,9 +14,9 @@
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "migration:gen": "pnpm run typeorm -- migration:generate -d src/database/config/data-source.ts --outputJs",
-    "migration:run": "pnpm run build; npm run typeorm -- migration:run -d src/database/config/data-source.ts",
-    "migration:revert": "pnpm run typeorm -- migration:revert -d src/database/config/data-source.ts"
+    "migration:gen": "pnpm build && pnpm typeorm migration:generate -d src/database/config/data-source.ts --outputJs",
+    "migration:run": "pnpm build && pnpm typeorm migration:run -d src/database/config/data-source.ts",
+    "migration:revert": "pnpm build && pnpm typeorm migration:revert -d src/database/config/data-source.ts"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
