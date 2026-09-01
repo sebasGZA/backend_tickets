@@ -1,0 +1,10 @@
+import 'dotenv/config'
+import { DataSource } from "typeorm";
+
+export const dataSource = new DataSource({
+    type: 'postgres',
+    url: process.env.DB_URL,
+    migrations: ['src/migrations/*{.ts,.js}'],
+    synchronize: false,
+    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+})
