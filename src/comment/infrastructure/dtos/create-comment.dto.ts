@@ -17,16 +17,4 @@ export class CreateCommentDto {
     @IsNotEmpty()
     @IsUUID()
     ticketId!: string
-
-    @ApiPropertyOptional({
-        description: "Select if comment is public"
-    })
-    @IsBoolean()
-    @IsOptional()
-    @Transform(({ value }) => {
-        if (value === 'true') return true;
-        if (value === 'false') return false;
-        return value
-    })
-    isPublic?: boolean;
 }

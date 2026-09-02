@@ -1,7 +1,14 @@
-import { QueryClient } from './../../domain/dtos/query-client.interface';
-import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
+import {
+    BadRequestException,
+    Inject,
+    Injectable,
+    InternalServerErrorException,
+    Logger,
+    NotFoundException,
+} from "@nestjs/common";
 
 import { CLIENT_REPOSITORY, type ClientRepositoryPort } from "../../domain/ports/repositories/client-repository.port";
+import { QueryClient } from './../../domain/dtos/query-client.interface';
 import { Client } from "../../domain/entities/client.entity";
 import { CreateClient } from "../../domain/dtos/create-client.interface";
 
