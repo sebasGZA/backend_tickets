@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, RelationId } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, RelationId, UpdateDateColumn } from "typeorm";
 
 import { ClientTypeORMEntity } from "../../../client/infrastructure/persistence/client-typeorm.entity";
 import { CommentTypeORMEntity } from "../../../comment/infrastructure/persistence/comment-typeorm.entity";
@@ -31,13 +31,13 @@ export class TicketTypeORMEntity {
     @RelationId((ticket: TicketTypeORMEntity) => ticket.createdBy)
     createdById!: string;
 
-    @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
+    @CreateDateColumn({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP(6)' })
     createdAt!: Date;
 
     @RelationId((ticket: TicketTypeORMEntity) => ticket.assignedTo)
     assignedToId?: string;
 
-    @Column({ name: 'updated_at', type: 'timestamp', nullable: true })
+    @UpdateDateColumn({ name: 'updated_at', type: 'timestamp', nullable: true })
     updatedAt?: Date;
 
     @RelationId((ticket: TicketTypeORMEntity) => ticket.updatedBy)

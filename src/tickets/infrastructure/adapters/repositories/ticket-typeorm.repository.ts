@@ -1,12 +1,13 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 
 import { type TicketRepositoryPort } from "../../../domain/ports/repositories/ticket-repository.port";
 import { TicketTypeORMEntity } from "../../persistence/ticket-typeorm.entity";
 import { Ticket } from "../../../domain/entities/ticket.entity";
 import { QueryTicket } from "../../../domain/dtos/query-ticket.interface";
 import { FindAllResponseDto } from "../../../../shared/domain/dtos/find-all-response.interface";
+import { UpdateTicket } from "src/tickets/domain/dtos/update-ticket.interface";
 
 @Injectable()
 export class TicketTypeORMRepository implements TicketRepositoryPort {
@@ -51,6 +52,12 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
             currentPage: page,
             totalPages: limit && Math.ceil(total / limit)
         }
+    }
+
+    async update(id: string, updateDto: UpdateTicket): Promise<void> {
+        const ticket = await this.repo.preload({ id, ...updateDto })
+        if (!ticket) throw new NotFoundException(`Ticket with id ${id} not found`)
+        await this.repo.save(ticket)
     }
 
     private transformResult(ticketsDB: TicketTypeORMEntity[]): Ticket[] {

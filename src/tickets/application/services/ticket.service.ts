@@ -8,6 +8,7 @@ import { ClientService } from "../../../client/application/services/client.servi
 import { UserService } from "../../../user/application/services/user.service";
 import { PriorityService } from "../../../priority/application/services/priority.service";
 import { StatusService } from "../../../status/application/services/status.service";
+import { UpdateTicket } from "../../domain/dtos/update-ticket.interface";
 
 @Injectable()
 export class TicketService {
@@ -40,5 +41,14 @@ export class TicketService {
         const ticket = await this.ticketRepo.findById(id)
         if (!ticket) throw new NotFoundException(`Ticket with id ${id} not found`)
         return ticket;
+    }
+
+    async updateTicket(id: string, updateTicketDto: UpdateTicket) {
+        const { clientId, priorityId, statusId, assignedToId } = updateTicketDto
+        if (clientId) await this.clientService.getById(clientId)
+        if (priorityId) await this.priorityService.getById(priorityId)
+        if (statusId) await this.statusService.getById(statusId)
+        if (assignedToId) await this.userService.getUserById(assignedToId)
+        await this.ticketRepo.update(id, updateTicketDto)
     }
 }

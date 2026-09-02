@@ -1,5 +1,6 @@
 import { FindAllResponseDto } from "../../../../shared/domain/dtos/find-all-response.interface";
 import { QueryTicket } from "../../dtos/query-ticket.interface";
+import { UpdateTicket } from "../../dtos/update-ticket.interface";
 import { Ticket } from "../../entities/ticket.entity";
 
 export const TICKET_REPOSITORY = 'TICKET_REPOSITORY';
@@ -8,4 +9,5 @@ export interface TicketRepositoryPort {
     save(ticket: Ticket): Promise<void>;
     findAll(queryTicket: QueryTicket): Promise<FindAllResponseDto<Ticket>>;
     findById(id: string): Promise<Ticket | null>;
+    update(id: string, updateDto: UpdateTicket): Promise<void>
 }   
