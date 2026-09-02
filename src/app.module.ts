@@ -8,6 +8,7 @@ import { RoleModule } from './role/role.module';
 import { StatusModule } from './status/status.module';
 import { UserModule } from './user/user.module';
 import { TicketModule } from './tickets/ticket.module';
+import { CommentModule } from './comment/comment.module';
 
 
 @Module({
@@ -18,6 +19,7 @@ import { TicketModule } from './tickets/ticket.module';
     }),
     DatabaseModule,
     ClientModule,
+    CommentModule,
     PriorityModule,
     RoleModule,
     StatusModule,

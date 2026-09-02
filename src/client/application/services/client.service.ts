@@ -1,5 +1,5 @@
 import { QueryClient } from './../../domain/dtos/query-client.interface';
-import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 
 import { CLIENT_REPOSITORY, type ClientRepositoryPort } from "../../domain/ports/repositories/client-repository.port";
 import { Client } from "../../domain/entities/client.entity";
@@ -28,7 +28,7 @@ export class ClientService {
 
     async getById(id: string) {
         const client = await this.clientRepo.findById(id)
-        if (!client) throw new BadRequestException(`Client with id ${id} not found`)
+        if (!client) throw new NotFoundException(`Client with id ${id} not found`)
         return client
     }
 

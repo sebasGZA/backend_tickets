@@ -19,7 +19,7 @@ export class ClientTypeORMRepository implements ClientRepositoryPort {
         await this.repo.save(client)
     }
 
-    async findById(id: string): Promise<Client | null> {
+    findById(id: string): Promise<Client | null> {
         return this.repo.findOne({ where: { id } })
     }
 

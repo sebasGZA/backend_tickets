@@ -1,4 +1,4 @@
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 
 import { TICKET_REPOSITORY, type TicketRepositoryPort } from "../../domain/ports/repositories/ticket-repository.port";
 import { Ticket } from "../../domain/entities/ticket.entity";
@@ -36,7 +36,9 @@ export class TicketService {
         return this.ticketRepo.findAll(queryTicket)
     }
 
-    getById(id: string) {
-        return this.ticketRepo.findById(id)
+    async getById(id: string) {
+        const ticket = await this.ticketRepo.findById(id)
+        if (!ticket) throw new NotFoundException(`Ticket with id ${id} not found`)
+        return ticket;
     }
 }

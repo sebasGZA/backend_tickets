@@ -1,4 +1,15 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, RelationId } from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryColumn,
+    RelationId,
+} from "typeorm";
+
+import { CommentTypeORMEntity } from "../../../comment/infrastructure/persistence/comment-typeorm.entity";
 import { RoleTypeORMEntity } from "../../../role/infrastructure/persistence/role-typeorm.entity";
 import { TicketTypeORMEntity } from "../../../tickets/infrastructure/persistence/ticket-typeorm.entity";
 
@@ -37,4 +48,7 @@ export class UserTypeORMEntity {
 
     @OneToMany(() => TicketTypeORMEntity, (tickets) => tickets.updatedBy)
     updatedTickets?: TicketTypeORMEntity[];
+
+    @OneToMany(() => CommentTypeORMEntity, (comments) => comments.createdBy)
+    createdComments?: CommentTypeORMEntity[];
 }

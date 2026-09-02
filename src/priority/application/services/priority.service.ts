@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+import { Inject, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 
 import { PRIORITY_REPOSITORY, type PriorityRepositoryPort } from "../../domain/ports/repositories/priority-repository.port";
 import { Priority } from "../../domain/entities/priority.entity";
@@ -30,7 +30,7 @@ export class PriorityService {
 
     async getById(id: string): Promise<Priority | null> {
         const priority = await this.priorityRepo.findById(id)
-        if (!priority) throw new BadRequestException(`Priority with id ${id} not found`)
+        if (!priority) throw new NotFoundException(`Priority with id ${id} not found`)
         return priority
     }
 }

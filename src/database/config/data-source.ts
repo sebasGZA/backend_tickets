@@ -2,6 +2,7 @@ import 'dotenv/config'
 import { DataSource } from "typeorm";
 
 import { ClientTypeORMEntity } from '../../client/infrastructure/persistence/client-typeorm.entity';
+import { CommentTypeORMEntity } from '../../comment/infrastructure/persistence/comment-typeorm.entity';
 import { PriorityTypeORMEntity } from '../../priority/infrastructure/persistence/priority-typeorm.entity';
 import { RoleTypeORMEntity } from '../../role/infrastructure/persistence/role-typeorm.entity';
 import { StatusTypeORMEntity } from '../../status/infrastructure/persistence/status-typeorm.entity';
@@ -13,6 +14,7 @@ export const dataSource = new DataSource({
     url: process.env.DB_URL,
     entities: [
         ClientTypeORMEntity,
+        CommentTypeORMEntity,
         PriorityTypeORMEntity,
         RoleTypeORMEntity,
         StatusTypeORMEntity,

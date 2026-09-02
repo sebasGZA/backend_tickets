@@ -1,6 +1,7 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn, RelationId } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, RelationId } from "typeorm";
 
 import { ClientTypeORMEntity } from "../../../client/infrastructure/persistence/client-typeorm.entity";
+import { CommentTypeORMEntity } from "../../../comment/infrastructure/persistence/comment-typeorm.entity";
 import { PriorityTypeORMEntity } from "../../../priority/infrastructure/persistence/priority-typeorm.entity";
 import { StatusTypeORMEntity } from "../../../status/infrastructure/persistence/status-typeorm.entity";
 import { UserTypeORMEntity } from "../../../user/infrastructure/persistence/user-typeorm.entity";
@@ -46,7 +47,7 @@ export class TicketTypeORMEntity {
 
     @Column({ name: 'resolved_at', type: 'timestamp', nullable: true })
     resolvedAt?: Date;
-    
+
     @ManyToOne(() => StatusTypeORMEntity, (status) => status.tickets)
     @JoinColumn()
     status!: StatusTypeORMEntity;
@@ -66,8 +67,11 @@ export class TicketTypeORMEntity {
     @ManyToOne(() => UserTypeORMEntity, (user) => user.assignedTickets)
     @JoinColumn()
     assignedTo?: UserTypeORMEntity;
-    
+
     @ManyToOne(() => UserTypeORMEntity, (user) => user.updatedTickets)
     @JoinColumn()
     updatedBy?: UserTypeORMEntity;
+
+    @OneToMany(() => CommentTypeORMEntity, (comment) => comment.ticket)
+    comments?: CommentTypeORMEntity[];
 }

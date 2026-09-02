@@ -1,4 +1,4 @@
-import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+import { Inject, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 
 import { STATUS_REPOSITORY, type StatusRepositoryPort } from "../../domain/ports/repositories/status-repository.port";
 import { Status } from "../../domain/entities/status.entity";
@@ -26,7 +26,7 @@ export class StatusService {
 
     async getById(id: string): Promise<Status> {
         const status = await this.statusRepo.findById(id)
-        if (!status) throw new BadRequestException(`Status with id ${id} not found`)
+        if (!status) throw new NotFoundException(`Status with id ${id} not found`)
         return status
     }
 
