@@ -1,11 +1,14 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { ClientTypeORMEntity } from "../../persistence/client-typeorm.entity";
+import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
-import { ClientRepositoryPort } from "../../../domain/ports/repositories/client-repository.port";
-import { Client } from "src/client/domain/entities/client.entity";
-import { QueryClient } from "src/client/domain/dtos/query-client.interface";
-import { FindAllResponseDto } from "src/shared/domain/dtos/find-all-response.dto";
 
+import { ClientTypeORMEntity } from "../../persistence/client-typeorm.entity";
+import { ClientRepositoryPort } from "../../../domain/ports/repositories/client-repository.port";
+import { Client } from "../../../domain/entities/client.entity";
+import { QueryClient } from "../../../domain/dtos/query-client.interface";
+import { FindAllResponseDto } from "../../../../shared/domain/dtos/find-all-response.dto";
+
+@Injectable()
 export class ClientTypeORMRepository implements ClientRepositoryPort {
     constructor(
         @InjectRepository(ClientTypeORMEntity)

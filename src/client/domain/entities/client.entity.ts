@@ -7,6 +7,6 @@ export class Client {
     ) { }
 
     static create(name: string, email: string, createdAt?: Date) {
-        return new Client(crypto.randomUUID(), name, email, createdAt)
+        return new Client(crypto.randomUUID(), name.toLowerCase(), email, createdAt)
     }
 }

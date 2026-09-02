@@ -1,11 +1,13 @@
 import 'dotenv/config'
-import { ClientTypeORMEntity } from '../../client/infrastructure/persistence/client-typeorm.entity';
 import { DataSource } from "typeorm";
+
+import { ClientTypeORMEntity } from '../../client/infrastructure/persistence/client-typeorm.entity';
+import { RoleTypeORMEntity } from '../../role/infrastructure/persistence/role-typeorm.entity';
 
 export const dataSource = new DataSource({
     type: 'postgres',
     url: process.env.DB_URL,
-    entities: [ClientTypeORMEntity],
+    entities: [ClientTypeORMEntity, RoleTypeORMEntity],
     migrations: ['src/migrations/*{.ts,.js}'],
     synchronize: false,
     ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
