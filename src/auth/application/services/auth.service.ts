@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException, UnauthorizedException } from "@nestjs/common";
-import { JwtService } from "@nestjs/jwt";
+import { JwtService, TokenExpiredError } from "@nestjs/jwt";
 import * as bcrypt from 'bcrypt'
 
 import { Login } from "../../domain/dtos/login.interface";
@@ -10,12 +10,11 @@ import { JwtPayload } from "../../domain/dtos/jwt-payload.interface";
 export class AuthService {
     constructor(
         private readonly userService: UserService,
-        private readonly jtwService: JwtService,
+        private readonly jwtService: JwtService,
     ) { }
 
     async login({ email, password }: Login) {
         const user = await this.userService.getUserEmail(email)
-        console.log(user)
         let valid: boolean
         try {
             valid = bcrypt.compareSync(password, user.password)
@@ -30,7 +29,25 @@ export class AuthService {
         };
 
         return {
-            token: this.jtwService.sign(payload)
+            token: this.jwtService.sign(payload)
         }
+    }
+
+    async refreshToken(currentToken: string) {
+        let payload: JwtPayload;
+
+        try {
+            payload = this.jwtService.verify<JwtPayload>(currentToken);
+        } catch (error) {
+            if (error instanceof TokenExpiredError) {
+                throw new UnauthorizedException('Token has expired, login');
+            }
+            throw new UnauthorizedException('InvalidToken');
+        }
+
+        const { sub, email, role } = payload;
+        const token = this.jwtService.sign({ sub, email, role });
+
+        return { token };
     }
 } 
