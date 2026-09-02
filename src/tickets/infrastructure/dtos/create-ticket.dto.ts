@@ -37,12 +37,12 @@ export class CreateTicketDto {
     @IsNotEmpty()
     clientId!: string;
 
-    @ApiProperty({
+    @ApiPropertyOptional({
         description: "The ID of the user who created the ticket",
     })
-    @IsNotEmpty()
+    @IsOptional()
     @IsUUID()
-    createdById!: string;
+    createdById?: string;
 
     @ApiPropertyOptional({
         description: "The ID of the user to whom the ticket is assigned",

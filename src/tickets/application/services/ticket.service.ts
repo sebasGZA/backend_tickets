@@ -1,5 +1,6 @@
-import { Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 
+import { UserMe } from './../../../auth/domain/dtos/user-me.interface';
 import { TICKET_REPOSITORY, type TicketRepositoryPort } from "../../domain/ports/repositories/ticket-repository.port";
 import { Ticket } from "../../domain/entities/ticket.entity";
 import { CreateTicket } from "../../domain/dtos/create-ticket.interface";
@@ -9,6 +10,8 @@ import { UserService } from "../../../user/application/services/user.service";
 import { PriorityService } from "../../../priority/application/services/priority.service";
 import { StatusService } from "../../../status/application/services/status.service";
 import { UpdateTicket } from "../../domain/dtos/update-ticket.interface";
+import { RoleEnum } from "../../../role/domain/enums/role.enum";
+import { StatusEnum } from "../../../status/domain/enums/status.enum";
 
 @Injectable()
 export class TicketService {
@@ -25,7 +28,6 @@ export class TicketService {
         await this.clientService.getById(createDto.clientId)
         await this.priorityService.getById(createDto.priorityId)
         await this.statusService.getById(createDto.statusId)
-        await this.userService.getUserById(createDto.createdById)
         if (createDto.assignedToId) {
             await this.userService.getUserById(createDto.assignedToId)
         }
@@ -43,11 +45,25 @@ export class TicketService {
         return ticket;
     }
 
-    async updateTicket(id: string, updateTicketDto: UpdateTicket) {
+    async updateTicket(id: string, updateTicketDto: UpdateTicket, { userId, role }: UserMe) {
         const { clientId, priorityId, statusId, assignedToId } = updateTicketDto
+
+        if (role === RoleEnum.SOPORTE) {
+            const ticket = await this.ticketRepo.findById(id)
+            if (ticket?.createdById !== userId)
+                throw new ForbiddenException('The user cannot update this ticket')
+        }
+        if (role == RoleEnum.SOPORTE && updateTicketDto.closedAt) {
+            throw new ForbiddenException('The user cannot update this ticket')
+        }
+
         if (clientId) await this.clientService.getById(clientId)
         if (priorityId) await this.priorityService.getById(priorityId)
-        if (statusId) await this.statusService.getById(statusId)
+        if (statusId) {
+            const status = await this.statusService.getById(statusId)
+            if (status.name === StatusEnum.REABIERTO && role === RoleEnum.SOPORTE)
+                throw new ForbiddenException('The user cannot update this ticket')
+        }
         if (assignedToId) await this.userService.getUserById(assignedToId)
         await this.ticketRepo.update(id, updateTicketDto)
     }
