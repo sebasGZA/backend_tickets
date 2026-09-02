@@ -1,12 +1,16 @@
 import { Body, Controller, Get, Param, Post, Query } from "@nestjs/common";
-import { ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 import { UserService } from "../../application/services/user.service";
 import { QueryUserDto } from "../dtos/query-user.dto";
 import { CreateUserDto } from "../dtos/create-user.dto";
+import { Roles } from "src/auth/infrastructure/decorators/roles.decorator";
+import { RoleEnum } from "src/role/domain/enums/role.enum";
 
+@ApiBearerAuth()
 @ApiTags('Users')
 @Controller('users')
+@Roles(RoleEnum.ADMIN)
 export class UserController {
     constructor(private readonly userService: UserService) { }
 
