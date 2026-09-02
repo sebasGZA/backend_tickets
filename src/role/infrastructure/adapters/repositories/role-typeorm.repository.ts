@@ -1,10 +1,12 @@
 import { InjectRepository } from "@nestjs/typeorm";
+import { Injectable } from "@nestjs/common";
 import { Repository } from "typeorm";
 
 import { RoleRepositoryPort } from "../../../domain/ports/repositories/role-repository.port";
 import { RoleTypeORMEntity } from "../../persistence/role-typeorm.entity";
 import { Role } from "../../../domain/entities/role.entity";
 
+@Injectable()
 export class RoleTypeOrmRepository implements RoleRepositoryPort {
     constructor(
         @InjectRepository(RoleTypeORMEntity)
