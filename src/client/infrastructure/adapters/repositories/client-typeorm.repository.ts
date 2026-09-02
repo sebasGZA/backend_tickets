@@ -6,7 +6,7 @@ import { ClientTypeORMEntity } from "../../persistence/client-typeorm.entity";
 import { ClientRepositoryPort } from "../../../domain/ports/repositories/client-repository.port";
 import { Client } from "../../../domain/entities/client.entity";
 import { QueryClient } from "../../../domain/dtos/query-client.interface";
-import { FindAllResponseDto } from "../../../../shared/domain/dtos/find-all-response.dto";
+import { FindAllResponseDto } from "../../../../shared/domain/dtos/find-all-response.interface";
 
 @Injectable()
 export class ClientTypeORMRepository implements ClientRepositoryPort {

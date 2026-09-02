@@ -22,6 +22,10 @@ export class RoleTypeOrmRepository implements RoleRepositoryPort {
         return this.transformResult(roles);
     }
 
+    findById(id: string): Promise<Role | null> {
+        return this.repo.findOne({ where: { id } })
+    }
+
     private transformResult(rolesDB: RoleTypeORMEntity[]): Role[] {
         return rolesDB.map((r) => new Role(r.id, r.name, r.createdAt));
     }

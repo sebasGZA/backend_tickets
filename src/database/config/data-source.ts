@@ -4,7 +4,8 @@ import { DataSource } from "typeorm";
 import { ClientTypeORMEntity } from '../../client/infrastructure/persistence/client-typeorm.entity';
 import { PriorityTypeORMEntity } from '../../priority/infrastructure/persistence/priority-typeorm.entity';
 import { RoleTypeORMEntity } from '../../role/infrastructure/persistence/role-typeorm.entity';
-import { StatusTypeORMEntity } from 'src/status/infrastructure/persistence/status-typeorm.entity';
+import { StatusTypeORMEntity } from '../../status/infrastructure/persistence/status-typeorm.entity';
+import { UserTypeORMEntity } from '../../user/infrastructure/persistence/user-typeorm.entity';
 
 export const dataSource = new DataSource({
     type: 'postgres',
@@ -14,6 +15,7 @@ export const dataSource = new DataSource({
         PriorityTypeORMEntity,
         RoleTypeORMEntity,
         StatusTypeORMEntity,
+        UserTypeORMEntity,
     ],
     migrations: ['src/migrations/*{.ts,.js}'],
     synchronize: false,

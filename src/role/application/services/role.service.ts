@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+import { Inject, Injectable, InternalServerErrorException, Logger, NotFoundException } from "@nestjs/common";
 
 import { ROLE_REPOSITORY, type RoleRepositoryPort } from "../../domain/ports/repositories/role-repository.port";
 import { Role } from "../../domain/entities/role.entity";
@@ -26,5 +26,11 @@ export class RoleService {
 
     getAll(): Promise<Role[]> {
         return this.roleRepo.findAll()
+    }
+
+    async getById(id: string): Promise<Role> {
+        const role = await this.roleRepo.findById(id)
+        if (!role) throw new NotFoundException(`Role with id ${id} not found`)
+        return role
     }
 }

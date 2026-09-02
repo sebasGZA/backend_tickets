@@ -1,5 +1,5 @@
 import { QueryClient } from './../../domain/dtos/query-client.interface';
-import { Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 
 import { CLIENT_REPOSITORY, type ClientRepositoryPort } from "../../domain/ports/repositories/client-repository.port";
 import { Client } from "../../domain/entities/client.entity";
@@ -20,7 +20,8 @@ export class ClientService {
             const client = Client.create(name, email)
             await this.clientRepo.save(client)
         } catch (error: any) {
-            this.logger.error(error)
+            this.logger.error(error.message)
+            if (error.code === '23505') throw new BadRequestException(`Client with email ${email} already exists`)
             throw new InternalServerErrorException(error.mesage)
         }
     }

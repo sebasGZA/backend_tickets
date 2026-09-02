@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { UserTypeORMEntity } from "../../../user/infrastructure/persistence/user-typeorm.entity";
 
 @Entity('roles')
 export class RoleTypeORMEntity {
@@ -9,5 +10,8 @@ export class RoleTypeORMEntity {
     name!: string;
 
     @CreateDateColumn({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP(6)', type: 'timestamp' })
-    createdAt!: Date
+    createdAt!: Date;
+
+    @OneToMany(() => UserTypeORMEntity, (users) => users.role)
+    users!: UserTypeORMEntity[];
 }

@@ -1,4 +1,4 @@
-import { FindAllResponseDto } from 'src/shared/domain/dtos/find-all-response.dto';
+import { FindAllResponseDto } from 'src/shared/domain/dtos/find-all-response.interface';
 import { QueryClient } from "../../dtos/query-client.interface";
 import { Client } from "../../entities/client.entity";
 
