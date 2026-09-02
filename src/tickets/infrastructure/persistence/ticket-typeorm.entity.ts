@@ -5,6 +5,7 @@ import { CommentTypeORMEntity } from "../../../comment/infrastructure/persistenc
 import { PriorityTypeORMEntity } from "../../../priority/infrastructure/persistence/priority-typeorm.entity";
 import { StatusTypeORMEntity } from "../../../status/infrastructure/persistence/status-typeorm.entity";
 import { UserTypeORMEntity } from "../../../user/infrastructure/persistence/user-typeorm.entity";
+import { ReassignmentTypeORMEntity } from "src/reassigment/infrastructure/persistence/reassignment-typeorm.entity";
 
 @Entity('tickets')
 export class TicketTypeORMEntity {
@@ -74,4 +75,7 @@ export class TicketTypeORMEntity {
 
     @OneToMany(() => CommentTypeORMEntity, (comment) => comment.ticket)
     comments?: CommentTypeORMEntity[];
+
+    @OneToMany(() => ReassignmentTypeORMEntity, (reassignment) => reassignment.ticket)
+    reassignments?: ReassignmentTypeORMEntity[];
 }

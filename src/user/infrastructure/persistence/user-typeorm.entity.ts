@@ -10,6 +10,7 @@ import {
 } from "typeorm";
 
 import { CommentTypeORMEntity } from "../../../comment/infrastructure/persistence/comment-typeorm.entity";
+import { ReassignmentTypeORMEntity } from "../../../reassigment/infrastructure/persistence/reassignment-typeorm.entity";
 import { RoleTypeORMEntity } from "../../../role/infrastructure/persistence/role-typeorm.entity";
 import { TicketTypeORMEntity } from "../../../tickets/infrastructure/persistence/ticket-typeorm.entity";
 
@@ -51,4 +52,13 @@ export class UserTypeORMEntity {
 
     @OneToMany(() => CommentTypeORMEntity, (comments) => comments.createdBy)
     createdComments?: CommentTypeORMEntity[];
+
+    @OneToMany(() => ReassignmentTypeORMEntity, (reassignments) => reassignments.createdBy)
+    createdreassignments?: ReassignmentTypeORMEntity[];
+
+    @OneToMany(() => ReassignmentTypeORMEntity, (reassignments) => reassignments.lastUserBy)
+    lastUserreassignments?: ReassignmentTypeORMEntity[];
+
+    @OneToMany(() => ReassignmentTypeORMEntity, (reassignments) => reassignments.newUserBy)
+    newUserreassignments?: ReassignmentTypeORMEntity[];
 }

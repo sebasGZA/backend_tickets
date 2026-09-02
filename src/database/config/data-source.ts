@@ -4,6 +4,7 @@ import { DataSource } from "typeorm";
 import { ClientTypeORMEntity } from '../../client/infrastructure/persistence/client-typeorm.entity';
 import { CommentTypeORMEntity } from '../../comment/infrastructure/persistence/comment-typeorm.entity';
 import { PriorityTypeORMEntity } from '../../priority/infrastructure/persistence/priority-typeorm.entity';
+import { ReassignmentTypeORMEntity } from '../../reassigment/infrastructure/persistence/reassignment-typeorm.entity';
 import { RoleTypeORMEntity } from '../../role/infrastructure/persistence/role-typeorm.entity';
 import { StatusTypeORMEntity } from '../../status/infrastructure/persistence/status-typeorm.entity';
 import { TicketTypeORMEntity } from '../../tickets/infrastructure/persistence/ticket-typeorm.entity';
@@ -16,6 +17,7 @@ export const dataSource = new DataSource({
         ClientTypeORMEntity,
         CommentTypeORMEntity,
         PriorityTypeORMEntity,
+        ReassignmentTypeORMEntity,
         RoleTypeORMEntity,
         StatusTypeORMEntity,
         TicketTypeORMEntity,

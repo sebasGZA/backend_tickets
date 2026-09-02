@@ -4,6 +4,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { ClientModule } from './client/client.module';
 import { PriorityModule } from './priority/priority.module';
+import { ReassignmentModule } from './reassigment/reassignment.module';
 import { RoleModule } from './role/role.module';
 import { StatusModule } from './status/status.module';
 import { UserModule } from './user/user.module';
@@ -21,6 +22,7 @@ import { CommentModule } from './comment/comment.module';
     ClientModule,
     CommentModule,
     PriorityModule,
+    ReassignmentModule,
     RoleModule,
     StatusModule,
     TicketModule,
