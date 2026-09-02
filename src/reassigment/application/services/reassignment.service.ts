@@ -5,6 +5,7 @@ import { CreateReassignment } from "../../domain/dtos/create-reassignment.interf
 import { Reassignment } from "../../domain/entities/reassignment.entity";
 import { UserService } from './../../../user/application/services/user.service';
 import { TicketService } from "../../../tickets/application/services/ticket.service";
+import { UserMe } from "src/auth/domain/dtos/user-me.interface";
 
 @Injectable()
 export class ReassignmentService {
@@ -18,14 +19,15 @@ export class ReassignmentService {
         this.logger = new Logger(Reassignment.name)
     }
 
-    async create(createDto: CreateReassignment) {
+    async create(createDto: CreateReassignment, user: UserMe) {
         await this.userService.getUserById(createDto.lastUserId);
         await this.userService.getUserById(createDto.newUserId);
         await this.ticketService.updateTicket(
             createDto.ticketId,
             {
                 assignedToId: createDto.newUserId
-            }
+            },
+            user
         )
         try {
             const reassignment = Reassignment.create(createDto);

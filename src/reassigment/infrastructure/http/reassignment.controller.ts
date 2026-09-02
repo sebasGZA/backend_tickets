@@ -1,16 +1,22 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { ReassignmentService } from './../../application/services/reassignment.service';
 import { CreateReassignmentDto } from '../dtos/create-reassignment.dto';
+import { CurrentUser } from '../../../auth/infrastructure/decorators/current-user.decorator';
+import { type UserMe } from '../../../auth/domain/dtos/user-me.interface';
+import { Roles } from 'src/auth/infrastructure/decorators/roles.decorator';
+import { RoleEnum } from 'src/role/domain/enums/role.enum';
 
+@ApiBearerAuth()
 @ApiTags('Reassignments')
 @Controller('reassignments')
 export class ReassignmentController {
     constructor(private readonly reassignmentService: ReassignmentService) { }
 
+    @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR)
     @Post()
-    postReassignment(@Body() createDto: CreateReassignmentDto) {
-        return this.reassignmentService.create(createDto)
+    postReassignment(@CurrentUser() user: UserMe, @Body() createDto: CreateReassignmentDto) {
+        return this.reassignmentService.create({ ...createDto, createdById: user.userId }, user)
     }
 }

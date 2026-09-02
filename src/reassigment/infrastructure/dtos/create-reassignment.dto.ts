@@ -22,11 +22,4 @@ export class CreateReassignmentDto {
     @IsUUID()
     @IsNotEmpty()
     newUserId!: string;
-
-    @ApiProperty({
-        description: "Add the reassignment's created by user id"
-    })
-    @IsUUID()
-    @IsNotEmpty()
-    createdById!: string;
 }
