@@ -5,7 +5,7 @@ import { CreateReassignment } from "../../domain/dtos/create-reassignment.interf
 import { Reassignment } from "../../domain/entities/reassignment.entity";
 import { UserService } from './../../../user/application/services/user.service';
 import { TicketService } from "../../../tickets/application/services/ticket.service";
-import { UserMe } from "src/auth/domain/dtos/user-me.interface";
+import { UserMe } from "../../../auth/domain/dtos/user-me.interface";
 
 @Injectable()
 export class ReassignmentService {

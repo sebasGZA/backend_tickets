@@ -5,8 +5,8 @@ import { CommentService } from "../../application/services/comment.service";
 import { CreateCommentDto } from "../dtos/create-comment.dto";
 import { Roles } from "../../../auth/infrastructure/decorators/roles.decorator";
 import { RoleEnum } from "../../../role/domain/enums/role.enum";
-import { CurrentUser } from "src/auth/infrastructure/decorators/current-user.decorator";
-import { type UserMe } from "src/auth/domain/dtos/user-me.interface";
+import { CurrentUser } from "../../../auth/infrastructure/decorators/current-user.decorator";
+import { type UserMe } from "../../../auth/domain/dtos/user-me.interface";
 
 @ApiBearerAuth()
 @ApiTags('Comments')

@@ -4,8 +4,8 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 import { UserService } from "../../application/services/user.service";
 import { QueryUserDto } from "../dtos/query-user.dto";
 import { CreateUserDto } from "../dtos/create-user.dto";
-import { Roles } from "src/auth/infrastructure/decorators/roles.decorator";
-import { RoleEnum } from "src/role/domain/enums/role.enum";
+import { Roles } from "../../../auth/infrastructure/decorators/roles.decorator";
+import { RoleEnum } from "../../../role/domain/enums/role.enum";
 
 @ApiBearerAuth()
 @ApiTags('Users')
