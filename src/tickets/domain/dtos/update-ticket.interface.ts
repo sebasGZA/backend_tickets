@@ -3,4 +3,6 @@ export interface UpdateTicket {
     priorityId?: string;
     clientId?: string;
     assignedToId?: string;
+    closedAt?: Date;
+    resolvedAt?: Date;
 }
