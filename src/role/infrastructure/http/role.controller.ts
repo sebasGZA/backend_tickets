@@ -11,7 +11,7 @@ import { RoleEnum } from "../../domain/enums/role.enum";
 export class RoleController {
     constructor(private readonly roleService: RoleService) { }
 
-    @Roles(RoleEnum.ADMIN, RoleEnum.SOPORTE, RoleEnum.SUPERVISOR)
+    @Roles(RoleEnum.ADMIN)
     @Get()
     getRoles() {
         return this.roleService.getAll()
