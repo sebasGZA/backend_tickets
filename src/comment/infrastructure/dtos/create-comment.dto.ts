@@ -18,13 +18,6 @@ export class CreateCommentDto {
     @IsUUID()
     ticketId!: string
 
-    @ApiProperty({
-        description: "Type the comment's user id"
-    })
-    @IsNotEmpty()
-    @IsUUID()
-    createdById!: string
-
     @ApiPropertyOptional({
         description: "Select if comment is public"
     })
