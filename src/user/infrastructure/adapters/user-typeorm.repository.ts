@@ -55,7 +55,12 @@ export class UserTypeORMRepository implements UserRepositoryPort {
     }
 
     findUserEmail(email: string): Promise<User | null> {
-        return this.repo.findOne({ where: { email } })
+        return this.repo.findOne({
+            where: { email },
+            relations: {
+                role: true,
+            }
+        })
     }
 
 

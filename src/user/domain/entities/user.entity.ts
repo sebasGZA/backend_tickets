@@ -7,7 +7,7 @@ export class User {
         readonly email: string,
         readonly password: string,
         readonly roleId: string,
-        readonly role?: Role,
+        readonly role: Role,
         readonly isActive?: boolean,
         readonly createdAt?: Date,
     ) { }
@@ -17,7 +17,7 @@ export class User {
         email: string,
         password: string,
         roleId: string,
-        role?: Role,
+        role: Role,
         isActive?: boolean,
         createdAt?: Date,
     ) {
