@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger"
-import { Type } from "class-transformer"
-import { IsBoolean, IsOptional, IsString } from "class-validator"
+import { Transform, Type } from "class-transformer"
+import { IsBoolean, IsOptional, IsString, IsUUID } from "class-validator"
 
 import { PaginationDto } from "../../../shared/infrastructure/dtos/pagination.dto"
 
@@ -16,13 +16,17 @@ export class QueryUserDto extends PaginationDto {
         description: 'Enter the roleId'
     })
     @IsOptional()
-    @IsString()
+    @IsUUID()
     roleId?: string
 
     @ApiPropertyOptional({
         description: 'Enter a term to find user by name or email'
     })
-    @Type(() => Boolean)
+    @Transform(({ value }) => {
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        return value;
+    })
     @IsOptional()
     @IsBoolean()
     isActive?: boolean

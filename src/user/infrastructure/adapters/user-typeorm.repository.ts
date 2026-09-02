@@ -3,10 +3,10 @@ import { BadRequestException, Injectable, InternalServerErrorException } from "@
 import { InjectRepository } from "@nestjs/typeorm";
 
 import { UserRepositoryPort } from "../../domain/ports/repositories/user-repository.port";
-import { User } from "src/user/domain/entities/user.entity";
+import { User } from "../../domain/entities/user.entity";
 import { UserTypeORMEntity } from "../persistence/user-typeorm.entity";
-import { QueryUser } from "src/user/domain/dtos/query-user.interface";
-import { FindAllResponseDto } from "src/shared/domain/dtos/find-all-response.interface";
+import { QueryUser } from "../../domain/dtos/query-user.interface";
+import { FindAllResponseDto } from "../../../shared/domain/dtos/find-all-response.interface";
 
 @Injectable()
 export class UserTypeORMRepository implements UserRepositoryPort {
@@ -39,7 +39,7 @@ export class UserTypeORMRepository implements UserRepositoryPort {
         }
 
         if (roleId) queryBuilder.andWhere('user.roleId = :roleId', { roleId })
-        if (isActive) queryBuilder.andWhere('user.isActive = :isActive', { isActive })
+        if (isActive !== undefined && isActive !== null) queryBuilder.andWhere('user.isActive = :isActive', { isActive })
 
         const [result, total] = await queryBuilder.getManyAndCount()
         return {
@@ -50,7 +50,11 @@ export class UserTypeORMRepository implements UserRepositoryPort {
         }
     }
 
-    findUser(email: string): Promise<User | null> {
+    findUserId(id: string): Promise<User | null> {
+        return this.repo.findOne({ where: { id } })
+    }
+
+    findUserEmail(email: string): Promise<User | null> {
         return this.repo.findOne({ where: { email } })
     }
 

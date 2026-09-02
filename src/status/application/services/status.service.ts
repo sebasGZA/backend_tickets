@@ -1,4 +1,4 @@
-import { Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
+import { BadRequestException, Inject, Injectable, InternalServerErrorException, Logger } from "@nestjs/common";
 
 import { STATUS_REPOSITORY, type StatusRepositoryPort } from "../../domain/ports/repositories/status-repository.port";
 import { Status } from "../../domain/entities/status.entity";
@@ -22,6 +22,12 @@ export class StatusService {
             this.logger.error(error)
             throw new InternalServerErrorException(error.mesage)
         }
+    }
+
+    async getById(id: string): Promise<Status> {
+        const status = await this.statusRepo.findById(id)
+        if (!status) throw new BadRequestException(`Status with id ${id} not found`)
+        return status
     }
 
     getAll(): Promise<Status[]> {

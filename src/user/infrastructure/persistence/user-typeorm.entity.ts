@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, RelationId } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, RelationId } from "typeorm";
 import { RoleTypeORMEntity } from "../../../role/infrastructure/persistence/role-typeorm.entity";
+import { TicketTypeORMEntity } from "../../../tickets/infrastructure/persistence/ticket-typeorm.entity";
 
 @Entity('users')
 export class UserTypeORMEntity {
@@ -27,4 +28,13 @@ export class UserTypeORMEntity {
     @ManyToOne(() => RoleTypeORMEntity, (role) => role.users)
     @JoinColumn()
     role!: RoleTypeORMEntity;
+
+    @OneToMany(() => TicketTypeORMEntity, (tickets) => tickets.createdBy)
+    createdTickets?: TicketTypeORMEntity[];
+
+    @OneToMany(() => TicketTypeORMEntity, (tickets) => tickets.assignedTo)
+    assignedTickets?: TicketTypeORMEntity[];
+
+    @OneToMany(() => TicketTypeORMEntity, (tickets) => tickets.updatedBy)
+    updatedTickets?: TicketTypeORMEntity[];
 }

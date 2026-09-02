@@ -3,7 +3,7 @@ import { Body, Controller, Get, Post, Query } from "@nestjs/common";
 import { ClientService } from "../../application/services/client.service";
 import { CreateClientDto } from "../dtos/create-client.dto";
 import { ApiTags } from "@nestjs/swagger";
-import { ClientQueryDto } from "../dtos/client-query.dto";
+import { QueryClientDto } from "../dtos/query-client.dto";
 
 @ApiTags('Clients')
 @Controller('clients')
@@ -16,7 +16,7 @@ export class ClientController {
     }
 
     @Get()
-    getClients(@Query() queryDto: ClientQueryDto) {
+    getClients(@Query() queryDto: QueryClientDto) {
         return this.clientService.getClients(queryDto)
     }
 }

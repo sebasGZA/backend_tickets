@@ -17,6 +17,10 @@ export class StatusTypeOrmRepository implements StatusRepositoryPort {
         await this.repo.save(status)
     }
 
+    findById(id: string): Promise<Status | null> {
+        return this.repo.findOne({ where: { id } })
+    }
+
     async findAll(): Promise<Status[]> {
         const status = await this.repo.find({});
         return this.transformResult(status);

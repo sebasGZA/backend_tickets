@@ -5,6 +5,7 @@ import { FindAllResponseDto } from '../../../../shared/domain/dtos/find-all-resp
 export const USER_REPOSITORY = 'USER_REPOSITORY'
 export interface UserRepositoryPort {
     save(user: User): Promise<void>
-    findUser(email: string): Promise<User | null>
+    findUserEmail(email: string): Promise<User | null>
+    findUserId(id: string): Promise<User | null>
     findUsers(queryUser: QueryUser): Promise<FindAllResponseDto<User>>
 }

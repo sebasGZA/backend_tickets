@@ -5,6 +5,7 @@ import { ClientTypeORMEntity } from '../../client/infrastructure/persistence/cli
 import { PriorityTypeORMEntity } from '../../priority/infrastructure/persistence/priority-typeorm.entity';
 import { RoleTypeORMEntity } from '../../role/infrastructure/persistence/role-typeorm.entity';
 import { StatusTypeORMEntity } from '../../status/infrastructure/persistence/status-typeorm.entity';
+import { TicketTypeORMEntity } from '../../tickets/infrastructure/persistence/ticket-typeorm.entity';
 import { UserTypeORMEntity } from '../../user/infrastructure/persistence/user-typeorm.entity';
 
 export const dataSource = new DataSource({
@@ -15,6 +16,7 @@ export const dataSource = new DataSource({
         PriorityTypeORMEntity,
         RoleTypeORMEntity,
         StatusTypeORMEntity,
+        TicketTypeORMEntity,
         UserTypeORMEntity,
     ],
     migrations: ['src/migrations/*{.ts,.js}'],

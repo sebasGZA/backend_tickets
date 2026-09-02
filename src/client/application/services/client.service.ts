@@ -26,6 +26,12 @@ export class ClientService {
         }
     }
 
+    async getById(id: string) {
+        const client = await this.clientRepo.findById(id)
+        if (!client) throw new BadRequestException(`Client with id ${id} not found`)
+        return client
+    }
+
     getClients(queryClient: QueryClient) {
         return this.clientRepo.findAll(queryClient);
     }

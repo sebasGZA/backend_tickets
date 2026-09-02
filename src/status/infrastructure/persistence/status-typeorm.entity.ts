@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryColumn } from "typeorm";
+import { TicketTypeORMEntity } from "../../../tickets/infrastructure/persistence/ticket-typeorm.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity('statuses')
 export class StatusTypeORMEntity {
@@ -10,4 +11,7 @@ export class StatusTypeORMEntity {
 
     @CreateDateColumn({ name: 'created_at', default: () => 'CURRENT_TIMESTAMP(6)', type: 'timestamp' })
     createdAt!: Date
+
+    @OneToMany(() => TicketTypeORMEntity, (tickets) => tickets.status)
+    tickets!: TicketTypeORMEntity[];
 }

@@ -19,6 +19,10 @@ export class ClientTypeORMRepository implements ClientRepositoryPort {
         await this.repo.save(client)
     }
 
+    async findById(id: string): Promise<Client | null> {
+        return this.repo.findOne({ where: { id } })
+    }
+
     async findAll({ term, page, limit }: QueryClient): Promise<FindAllResponseDto<Client>> {
         const queryBuilder = this.repo.createQueryBuilder('client')
         if (term) queryBuilder.where('client.name ILIKE :term', { term: `%${term.toLowerCase()}%` })

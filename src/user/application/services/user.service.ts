@@ -1,3 +1,4 @@
+import { ConfigService } from "@nestjs/config";
 import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import * as bcrypt from 'bcrypt';
 
@@ -14,27 +15,34 @@ export class UserService {
     constructor(
         @Inject(USER_REPOSITORY)
         private readonly userRepo: UserRepositoryPort,
-        private readonly roleService: RoleService
+        private readonly roleService: RoleService,
+        private readonly configService: ConfigService,
     ) {
-        this.saltRounds = parseInt(process.env.PASSWORD_SALT_ROUNDS || '10');
+        this.saltRounds = this.configService.get<number>('PASSWORD_SALT_ROUNDS', 10);
     }
 
     getUsers(queryDto: QueryUser): Promise<FindAllResponseDto<User>> {
         return this.userRepo.findUsers(queryDto);
     }
 
-    async getUser(email: string) {
-        const user = await this.userRepo.findUser(email)
+    async getUserEmail(email: string) {
+        const user = await this.userRepo.findUserEmail(email)
         if (!user) throw new NotFoundException(`User with email ${email} not found`)
+        return user
+    }
+    
+    async getUserById(id: string) {
+        const user = await this.userRepo.findUserId(id)
+        if (!user) throw new NotFoundException(`User with id ${id} not found`)
         return user
     }
 
     async createUser({ name, email, roleId, password, isActive }: CreateUser): Promise<void> {
-        const existingUser = await this.userRepo.findUser(email)
+        const existingUser = await this.userRepo.findUserEmail(email)
         if (existingUser) throw new BadRequestException(`User with email ${email} already exists`)
         const role = await this.roleService.getById(roleId)
         const passwordHash = bcrypt.hashSync(password, this.saltRounds)
-        const user = User.create(name, email, passwordHash, roleId, role!, isActive)
+        const user = User.create(name, email, passwordHash, roleId, role, isActive)
         return this.userRepo.save(user)
     }
 }

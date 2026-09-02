@@ -7,4 +7,5 @@ export const CLIENT_REPOSITORY = 'CLIENT_REPOSITORY';
 export interface ClientRepositoryPort {
     save(client: Client): Promise<void>
     findAll(queryClient: QueryClient): Promise<FindAllResponseDto<Client>>
+    findById(id: string): Promise<Client | null>
 }

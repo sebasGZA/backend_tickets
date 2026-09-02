@@ -22,6 +22,10 @@ export class PriorityTypeOrmRepository implements PriorityRepositoryPort {
         return this.transformResult(priorities);
     }
 
+    findById(id: string): Promise<Priority | null> {
+        return this.repo.findOne({ where: { id } })
+    }
+
     private transformResult(prioritiesDB: PriorityTypeORMEntity[]): Priority[] {
         return prioritiesDB.map((r) => new Priority(r.id, r.name, r.createdAt));
     }
