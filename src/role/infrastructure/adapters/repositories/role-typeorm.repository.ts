@@ -5,6 +5,7 @@ import { Repository } from "typeorm";
 import { RoleRepositoryPort } from "../../../domain/ports/repositories/role-repository.port";
 import { RoleTypeORMEntity } from "../../persistence/role-typeorm.entity";
 import { Role } from "../../../domain/entities/role.entity";
+import { RoleEnum } from "../../../domain/enums/role.enum";
 
 @Injectable()
 export class RoleTypeOrmRepository implements RoleRepositoryPort {
@@ -24,6 +25,10 @@ export class RoleTypeOrmRepository implements RoleRepositoryPort {
 
     findById(id: string): Promise<Role | null> {
         return this.repo.findOne({ where: { id } })
+    }
+
+    findByName(name: RoleEnum): Promise<Role | null> {
+        return this.repo.findOne({ where: { name } })
     }
 
     private transformResult(rolesDB: RoleTypeORMEntity[]): Role[] {

@@ -1,8 +1,10 @@
-export class Priority {
-    constructor(readonly id: string, readonly name: string, readonly createdAt?: Date) { }
+import { PriorityEnum } from "../enums/priority.enum";
 
-    static create(name: string, createdAt?: Date) {
-        return new Priority(crypto.randomUUID(), name.toLowerCase(), createdAt)
+export class Priority {
+    constructor(readonly id: string, readonly name: PriorityEnum, readonly createdAt?: Date) { }
+
+    static create(name: PriorityEnum, createdAt?: Date) {
+        return new Priority(crypto.randomUUID(), name, createdAt)
     }
 
 }

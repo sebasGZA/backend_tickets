@@ -4,7 +4,7 @@ import { Repository } from "typeorm";
 
 import { ReassignmentRepositoryPort } from "../../../domain/ports/repositories/reassignment-repository.port";
 import { ReassignmentTypeORMEntity } from "../../persistence/reassignment-typeorm.entity";
-import { CreateReassignment } from "src/reassigment/domain/dtos/create-reassignment.interface";
+import { CreateReassignment } from '../../../domain/dtos/create-reassignment.interface'
 
 @Injectable()
 export class ReassignmentTypeORMRepository implements ReassignmentRepositoryPort {

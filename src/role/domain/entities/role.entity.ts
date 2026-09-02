@@ -1,8 +1,10 @@
-export class Role {
-    constructor(readonly id: string, readonly name: string, readonly createdAt?: Date) { }
+import { RoleEnum } from "../enums/role.enum";
 
-    static create(name: string, createdAt?: Date) {
-        return new Role(crypto.randomUUID(), name.toLowerCase(), createdAt)
+export class Role {
+    constructor(readonly id: string, readonly name: RoleEnum, readonly createdAt?: Date) { }
+
+    static create(name: RoleEnum, createdAt?: Date) {
+        return new Role(crypto.randomUUID(), name, createdAt)
     }
 
 }

@@ -13,6 +13,7 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "seed": "pnpm build; ts-node -r tsconfig-paths/register src/database/seeds/seed.ts",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "migration:gen": "pnpm build && pnpm typeorm migration:generate -d src/database/config/data-source.ts --outputJs",
     "migration:run": "pnpm build && pnpm typeorm migration:run -d src/database/config/data-source.ts",

@@ -3,6 +3,7 @@ import { Inject, Injectable, InternalServerErrorException, Logger, NotFoundExcep
 import { ROLE_REPOSITORY, type RoleRepositoryPort } from "../../domain/ports/repositories/role-repository.port";
 import { Role } from "../../domain/entities/role.entity";
 import { CreateRole } from "../../domain/dtos/create-role.interface";
+import { RoleEnum } from "../../domain/enums/role.enum";
 
 @Injectable()
 export class RoleService {
@@ -32,5 +33,9 @@ export class RoleService {
         const role = await this.roleRepo.findById(id)
         if (!role) throw new NotFoundException(`Role with id ${id} not found`)
         return role
+    }
+
+    getByName(name: RoleEnum): Promise<Role | null> {
+        return this.roleRepo.findByName(name)
     }
 }

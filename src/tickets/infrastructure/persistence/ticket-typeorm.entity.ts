@@ -1,11 +1,21 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, RelationId, UpdateDateColumn } from "typeorm";
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinColumn,
+    ManyToOne,
+    OneToMany,
+    PrimaryColumn,
+    RelationId,
+    UpdateDateColumn,
+} from "typeorm";
 
 import { ClientTypeORMEntity } from "../../../client/infrastructure/persistence/client-typeorm.entity";
 import { CommentTypeORMEntity } from "../../../comment/infrastructure/persistence/comment-typeorm.entity";
 import { PriorityTypeORMEntity } from "../../../priority/infrastructure/persistence/priority-typeorm.entity";
 import { StatusTypeORMEntity } from "../../../status/infrastructure/persistence/status-typeorm.entity";
 import { UserTypeORMEntity } from "../../../user/infrastructure/persistence/user-typeorm.entity";
-import { ReassignmentTypeORMEntity } from "src/reassigment/infrastructure/persistence/reassignment-typeorm.entity";
+import { ReassignmentTypeORMEntity } from "../../../reassigment/infrastructure/persistence/reassignment-typeorm.entity";
 
 @Entity('tickets')
 export class TicketTypeORMEntity {

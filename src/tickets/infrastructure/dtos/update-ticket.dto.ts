@@ -1,5 +1,5 @@
-import { PartialType } from "@nestjs/mapped-types"
-import { ApiPropertyOptional } from "@nestjs/swagger";
+
+import { ApiPropertyOptional, PartialType } from "@nestjs/swagger";
 import { IsDateString, IsOptional } from "class-validator";
 
 import { CreateTicketDto } from "./create-ticket.dto"

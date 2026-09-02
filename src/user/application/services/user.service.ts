@@ -16,9 +16,8 @@ export class UserService {
         @Inject(USER_REPOSITORY)
         private readonly userRepo: UserRepositoryPort,
         private readonly roleService: RoleService,
-        private readonly configService: ConfigService,
     ) {
-        this.saltRounds = this.configService.get<number>('PASSWORD_SALT_ROUNDS', 10);
+        this.saltRounds = parseInt(process.env.PASSWORD_SALT_ROUNDS!) || 10;
     }
 
     getUsers(queryDto: QueryUser): Promise<FindAllResponseDto<User>> {
@@ -30,7 +29,11 @@ export class UserService {
         if (!user) throw new NotFoundException(`User with email ${email} not found`)
         return user
     }
-    
+
+    async getUserSeed(email: string) {
+        return this.userRepo.findUserEmail(email)
+    }
+
     async getUserById(id: string) {
         const user = await this.userRepo.findUserId(id)
         if (!user) throw new NotFoundException(`User with id ${id} not found`)

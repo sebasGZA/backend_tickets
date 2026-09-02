@@ -1,3 +1,5 @@
+import { StatusEnum } from "../enums/status.enum";
+
 export interface CreateStatus {
-    name: string;
+    name: StatusEnum;
 }

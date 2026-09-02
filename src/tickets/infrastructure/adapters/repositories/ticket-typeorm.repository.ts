@@ -7,7 +7,7 @@ import { TicketTypeORMEntity } from "../../persistence/ticket-typeorm.entity";
 import { Ticket } from "../../../domain/entities/ticket.entity";
 import { QueryTicket } from "../../../domain/dtos/query-ticket.interface";
 import { FindAllResponseDto } from "../../../../shared/domain/dtos/find-all-response.interface";
-import { UpdateTicket } from "src/tickets/domain/dtos/update-ticket.interface";
+import { UpdateTicket } from "../../../domain/dtos/update-ticket.interface";
 
 @Injectable()
 export class TicketTypeORMRepository implements TicketRepositoryPort {
