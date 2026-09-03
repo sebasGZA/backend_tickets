@@ -11,9 +11,14 @@ async function bootstrap() {
   const port = process.env.PORT ?? 3000;
   const prefix = process.env.API_PREFIX ?? 'api';
 
+  app.enableCors({
+    origin: [process.env.CORS_ORIGIN],
+    credentials: true,
+  })
+
   swaggerConfiguration(app);
   app.setGlobalPrefix(prefix);
-    app.useGlobalPipes(new ValidationPipe({
+  app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
     forbidNonWhitelisted: true,
     transform: true,
