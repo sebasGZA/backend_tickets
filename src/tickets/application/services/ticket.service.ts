@@ -95,7 +95,7 @@ export class TicketService {
     }
     if (status) {
       statusDb = await this.statusService.getByName(status);
-      if (statusDb.name === StatusEnum.REABIERTO && role === RoleEnum.SOPORTE)
+      if (statusDb.name === StatusEnum.CERRADO && role === RoleEnum.SOPORTE)
         throw new ForbiddenException('The user cannot update this ticket');
     }
     if (assignedToId) await this.userService.getUserById(assignedToId);

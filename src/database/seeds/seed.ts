@@ -52,7 +52,6 @@ const statusesToCreate = async (app: INestApplicationContext) => {
     StatusEnum.ABIERTO,
     StatusEnum.EN_PROGRESSO,
     StatusEnum.CERRADO,
-    StatusEnum.REABIERTO,
   ];
 
   const statusPromises = statusToCreate.map((name) =>
