@@ -1,0 +1,42 @@
+import { CreateTicket } from '../dtos/create-ticket.interface';
+
+export class Ticket {
+  constructor(
+    readonly id: string,
+    readonly title: string,
+    readonly description: string,
+    readonly statusId: string,
+    readonly priorityId: string,
+    readonly clientId: string,
+    readonly createdById: string,
+    readonly createdAt?: Date,
+    readonly assignedToId?: string,
+    readonly updatedAt?: Date,
+    readonly updatedById?: string,
+    readonly closedAt?: Date,
+  ) {}
+
+  static create(
+    title: string,
+    description: string,
+    statusId: string,
+    priorityId: string,
+    clientId: string,
+    createdById: string,
+    createdAt?: Date,
+    assignedToId?: string,
+  ): Ticket {
+    const id = crypto.randomUUID();
+    return new Ticket(
+      id,
+      title,
+      description,
+      statusId,
+      priorityId,
+      clientId,
+      createdById,
+      createdAt,
+      assignedToId,
+    );
+  }
+}
