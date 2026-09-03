@@ -2,6 +2,7 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import {
   IsBoolean,
+  IsBooleanString,
   IsNotEmpty,
   IsOptional,
   IsString,
@@ -22,4 +23,15 @@ export class CreateCommentDto {
   @IsNotEmpty()
   @IsUUID()
   ticketId!: string;
+
+  @ApiProperty({
+    description: 'Select if the comment is public',
+  })
+  @IsBoolean()
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    return value;
+  })
+  isPublic!: boolean;
 }

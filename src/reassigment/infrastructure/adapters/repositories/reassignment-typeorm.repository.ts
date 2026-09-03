@@ -11,26 +11,30 @@ export class ReassignmentTypeORMRepository implements ReassignmentRepositoryPort
   constructor(
     @InjectRepository(ReassignmentTypeORMEntity)
     private readonly repo: Repository<ReassignmentTypeORMEntity>,
-  ) { }
+  ) {}
 
-  async save({ id, createdById, newUserId, ticketId, lastUserId }: Reassignment): Promise<void> {
-    const reassignToCretate = this.repo.create(
-      {
-        id,
-        createdBy: {
-          id: createdById
-        },
-        newUserBy: {
-          id: newUserId,
-        },
-        lastUserBy: {
-          id: lastUserId
-        },
-        ticket: {
-          id: ticketId
-        }
-      }
-    )
+  async save({
+    id,
+    createdById,
+    newUserId,
+    ticketId,
+    lastUserId,
+  }: Reassignment): Promise<void> {
+    const reassignToCretate = this.repo.create({
+      id,
+      createdBy: {
+        id: createdById,
+      },
+      newUserBy: {
+        id: newUserId,
+      },
+      lastUserBy: {
+        id: lastUserId,
+      },
+      ticket: {
+        id: ticketId,
+      },
+    });
     await this.repo.save(reassignToCretate);
   }
 }

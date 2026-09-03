@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { UserService } from '../../application/services/user.service';
@@ -12,7 +21,7 @@ import { UpdateUserDto } from '../dtos/update-user.dto';
 @ApiTags('Users')
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService) {}
 
   @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR)
   @Get()
@@ -36,7 +45,8 @@ export class UserController {
   @Patch(':id')
   patchUser(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-    @Body() updateDto: UpdateUserDto) {
+    @Body() updateDto: UpdateUserDto,
+  ) {
     return this.userService.updateUser(id, updateDto);
   }
 }

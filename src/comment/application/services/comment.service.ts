@@ -24,7 +24,8 @@ export class CommentService {
   async createComment(createDto: CreateComment, user: UserMe) {
     await this.ticketService.getById(createDto.ticketId);
 
-    const isPublic = user.role !== RoleEnum.SUPERVISOR;
+    const isPublic =
+      user.role !== RoleEnum.SUPERVISOR ? createDto.isPublic : false;
     return this.commentRepo.save({ ...createDto, isPublic });
   }
 }

@@ -15,7 +15,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
   constructor(
     @InjectRepository(TicketTypeORMEntity)
     private readonly repo: Repository<TicketTypeORMEntity>,
-  ) { }
+  ) {}
 
   async save({
     id,
@@ -55,15 +55,16 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
   }
 
   async findByIdDetail(id: string): Promise<TicketResponse> {
-    const queryBuilder = this.repo.createQueryBuilder('ticket')
+    const queryBuilder = this.repo
+      .createQueryBuilder('ticket')
       .leftJoinAndSelect('ticket.status', 'status')
       .leftJoinAndSelect('ticket.priority', 'priority')
       .leftJoinAndSelect('ticket.assignedTo', 'assignedTo')
       .leftJoinAndSelect('ticket.client', 'client')
-      .where('ticket.id = :id', { id })
+      .where('ticket.id = :id', { id });
 
-    const ticket = await queryBuilder.getOne()
-    if (!ticket) throw new NotFoundException(`Ticket with id:${id} not found`)
+    const ticket = await queryBuilder.getOne();
+    if (!ticket) throw new NotFoundException(`Ticket with id:${id} not found`);
     return {
       id: ticket.id,
       title: ticket.title,
@@ -77,7 +78,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
       createdAt: ticket.createdAt,
       resolvedAt: ticket.resolvedAt,
       closedAt: ticket.closedAt,
-    }
+    };
   }
 
   async findAll(

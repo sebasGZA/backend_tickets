@@ -42,7 +42,7 @@ export class ClientService {
 
   update(id: string, updateDto: UpdateClient) {
     try {
-      return this.clientRepo.update(id, updateDto)
+      return this.clientRepo.update(id, updateDto);
     } catch (error: any) {
       this.logger.error(error.message);
       if (error.code === '23505')

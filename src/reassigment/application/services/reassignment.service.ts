@@ -38,7 +38,10 @@ export class ReassignmentService {
       user,
     );
     try {
-      const reassignment = Reassignment.create({ ...createDto, lastUserId: ticket.assignedToId });
+      const reassignment = Reassignment.create({
+        ...createDto,
+        lastUserId: ticket.assignedToId,
+      });
       await this.reassignmentRepo.save(reassignment);
     } catch (error: any) {
       this.logger.error(error.message);

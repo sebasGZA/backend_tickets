@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Patch, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  Patch,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 import { ClientService } from '../../application/services/client.service';
@@ -11,7 +20,7 @@ import { UpdateClientDto } from '../dtos/update-client.dto';
 @ApiTags('Clients')
 @Controller('clients')
 export class ClientController {
-  constructor(private readonly clientService: ClientService) { }
+  constructor(private readonly clientService: ClientService) {}
 
   @Roles(RoleEnum.ADMIN)
   @Post()
@@ -23,7 +32,8 @@ export class ClientController {
   @Patch(':id')
   patchClient(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
-    @Body() updateDto: UpdateClientDto) {
+    @Body() updateDto: UpdateClientDto,
+  ) {
     return this.clientService.update(id, updateDto);
   }
 

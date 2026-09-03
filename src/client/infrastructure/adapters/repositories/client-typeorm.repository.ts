@@ -14,16 +14,16 @@ export class ClientTypeORMRepository implements ClientRepositoryPort {
   constructor(
     @InjectRepository(ClientTypeORMEntity)
     private readonly repo: Repository<ClientTypeORMEntity>,
-  ) { }
+  ) {}
 
   async save(client: Client): Promise<void> {
     await this.repo.save(client);
   }
 
   async update(id: string, updateDto: UpdateClient): Promise<void> {
-    const client = await this.repo.preload({ id, ...updateDto })
-    if (!client) throw new NotFoundException(`Client with id ${id} not found`)
-    await this.repo.save(client)
+    const client = await this.repo.preload({ id, ...updateDto });
+    if (!client) throw new NotFoundException(`Client with id ${id} not found`);
+    await this.repo.save(client);
   }
 
   findById(id: string): Promise<Client | null> {

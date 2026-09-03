@@ -23,7 +23,7 @@ export class CommentTypeORMEntity {
   ticketId!: string;
 
   @Column({ type: 'boolean', default: true })
-  isPublic?: boolean;
+  isPublic!: boolean;
 
   @RelationId((comment: CommentTypeORMEntity) => comment.createdBy)
   createdById!: string;

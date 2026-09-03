@@ -20,7 +20,7 @@ export class UserTypeORMRepository implements UserRepositoryPort {
   constructor(
     @InjectRepository(UserTypeORMEntity)
     private readonly repo: Repository<UserTypeORMEntity>,
-  ) { }
+  ) {}
 
   async save(user: User): Promise<void> {
     try {
@@ -82,7 +82,7 @@ export class UserTypeORMRepository implements UserRepositoryPort {
       ...updateDto,
       role: {
         id: updateDto.roleId,
-      }
+      },
     });
     if (!ticket) throw new NotFoundException(`User with id ${id} not found`);
     await this.repo.save(ticket);

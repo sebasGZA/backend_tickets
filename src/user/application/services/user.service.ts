@@ -62,9 +62,16 @@ export class UserService {
     if (existingUser)
       throw new BadRequestException(`User with email ${email} already exists`);
     const roleDb = await this.roleService.getByName(role);
-    if (!roleDb) throw new NotFoundException(`Role wih name ${name} not found`)
+    if (!roleDb) throw new NotFoundException(`Role wih name ${name} not found`);
     const passwordHash = bcrypt.hashSync(password, this.saltRounds);
-    const user = User.create(name, email, passwordHash, roleDb.id, roleDb, isActive);
+    const user = User.create(
+      name,
+      email,
+      passwordHash,
+      roleDb.id,
+      roleDb,
+      isActive,
+    );
     return this.userRepo.save(user);
   }
 
@@ -73,12 +80,17 @@ export class UserService {
     let roleDb: Role | null;
     if (role) {
       roleDb = await this.roleService.getByName(role);
-      if (!roleDb) throw new NotFoundException(`Role wih name ${role} not found`)
+      if (!roleDb)
+        throw new NotFoundException(`Role wih name ${role} not found`);
     }
     let passwordHash: string | undefined;
     if (password) {
       passwordHash = bcrypt.hashSync(password, this.saltRounds);
     }
-    return this.userRepo.update(id, { ...updateDto, password: passwordHash, roleId: roleDb!.id })
+    return this.userRepo.update(id, {
+      ...updateDto,
+      password: passwordHash,
+      roleId: roleDb!.id,
+    });
   }
 }
