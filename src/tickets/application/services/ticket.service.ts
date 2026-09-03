@@ -79,7 +79,7 @@ export class TicketService {
     const { clientId, priority, status, assignedToId } = updateTicketDto;
     if (role === RoleEnum.SOPORTE) {
       const ticket = await this.ticketRepo.findById(id);
-      if (ticket?.createdById !== userId)
+      if (ticket?.assignedToId !== userId)
         throw new ForbiddenException('The user cannot update this ticket');
     }
     if (role == RoleEnum.SOPORTE && updateTicketDto.closedAt) {
