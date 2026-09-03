@@ -20,6 +20,6 @@ export class CommentTypeORMRepository implements CommentRepositoryPort {
   }
 
   findAllByTicketId(ticketId: string): Promise<Comment[]> {
-    return this.repo.find({ where: { ticketId } });
+    return this.repo.find({ where: { ticket: {id: ticketId} } });
   }
 }

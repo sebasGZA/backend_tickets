@@ -23,7 +23,7 @@ import { type UserMe } from '../../../auth/domain/dtos/user-me.interface';
 @ApiTags('Tickets')
 @Controller('tickets')
 export class TicketController {
-  constructor(private readonly ticketService: TicketService) {}
+  constructor(private readonly ticketService: TicketService) { }
 
   @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR, RoleEnum.SOPORTE)
   @Get()
@@ -35,6 +35,12 @@ export class TicketController {
   @Get(':id')
   getById(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
     return this.ticketService.getById(id);
+  }
+
+  @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR, RoleEnum.SOPORTE)
+  @Get('/detail/:id')
+  getByIdDetail(@Param('id', new ParseUUIDPipe({ version: '4' })) id: string) {
+    return this.ticketService.getByIdDetail(id);
   }
 
   @Roles(RoleEnum.ADMIN, RoleEnum.SOPORTE)

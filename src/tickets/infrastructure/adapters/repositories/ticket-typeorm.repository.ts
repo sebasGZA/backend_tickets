@@ -54,6 +54,32 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
     return this.repo.findOne({ where: { id } });
   }
 
+  async findByIdDetail(id: string): Promise<TicketResponse> {
+    const queryBuilder = this.repo.createQueryBuilder('ticket')
+      .leftJoinAndSelect('ticket.status', 'status')
+      .leftJoinAndSelect('ticket.priority', 'priority')
+      .leftJoinAndSelect('ticket.assignedTo', 'assignedTo')
+      .leftJoinAndSelect('ticket.client', 'client')
+      .where('ticket.id = :id', { id })
+
+    const ticket = await queryBuilder.getOne()
+    if (!ticket) throw new NotFoundException(`Ticket with id:${id} not found`)
+    return {
+      id: ticket.id,
+      title: ticket.title,
+      description: ticket.description,
+      client: ticket.client.name,
+      clientId: ticket.clientId,
+      status: ticket.status.name,
+      priority: ticket.priority.name,
+      assignedTo: ticket.assignedTo?.name,
+      assignedToId: ticket.assignedToId,
+      createdAt: ticket.createdAt,
+      resolvedAt: ticket.resolvedAt,
+      closedAt: ticket.closedAt,
+    }
+  }
+
   async findAll(
     queryTicket: QueryTicket,
   ): Promise<FindAllResponseDto<TicketResponse>> {

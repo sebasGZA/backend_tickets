@@ -13,4 +13,5 @@ export interface TicketRepositoryPort {
   ): Promise<FindAllResponseDto<TicketResponse>>;
   findById(id: string): Promise<Ticket | null>;
   update(id: string, updateDto: UpdateTicket): Promise<void>;
+  findByIdDetail(id: string): Promise<TicketResponse>
 }

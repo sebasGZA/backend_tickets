@@ -33,7 +33,7 @@ export class TicketService {
     private readonly priorityService: PriorityService,
     private readonly statusService: StatusService,
     private readonly userService: UserService,
-  ) {}
+  ) { }
 
   async create(createDto: CreateTicket): Promise<void> {
     await this.clientService.getById(createDto.clientId);
@@ -65,6 +65,10 @@ export class TicketService {
     const ticket = await this.ticketRepo.findById(id);
     if (!ticket) throw new NotFoundException(`Ticket with id ${id} not found`);
     return ticket;
+  }
+
+  getByIdDetail(id: string) {
+    return this.ticketRepo.findByIdDetail(id)
   }
 
   async updateTicket(
