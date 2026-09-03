@@ -15,7 +15,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
   constructor(
     @InjectRepository(TicketTypeORMEntity)
     private readonly repo: Repository<TicketTypeORMEntity>,
-  ) {}
+  ) { }
 
   async save({
     id,
@@ -61,6 +61,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
       .leftJoinAndSelect('ticket.priority', 'priority')
       .leftJoinAndSelect('ticket.assignedTo', 'assignedTo')
       .leftJoinAndSelect('ticket.client', 'client')
+      .leftJoinAndSelect('ticket.createdBy', 'createdBy')
       .where('ticket.id = :id', { id });
 
     const ticket = await queryBuilder.getOne();
@@ -78,6 +79,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
       createdAt: ticket.createdAt,
       resolvedAt: ticket.resolvedAt,
       closedAt: ticket.closedAt,
+      createdBy: ticket.createdBy.name,
     };
   }
 
@@ -159,6 +161,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         createdAt,
         closedAt,
         resolvedAt,
+        createdBy
       }) => ({
         id,
         title,
@@ -169,6 +172,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         clientId: client.id,
         assignedTo: assignedTo?.name,
         assignedToId: assignedTo?.id,
+        createdBy: createdBy.name,
         createdAt,
         closedAt,
         resolvedAt,

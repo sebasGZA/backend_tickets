@@ -9,6 +9,7 @@ export interface TicketResponse {
   priority: PriorityEnum;
   client: string;
   clientId: string;
+  createdBy: string;
   assignedTo?: string;
   assignedToId?: string;
   createdAt: Date;
