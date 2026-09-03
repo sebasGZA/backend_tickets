@@ -28,8 +28,8 @@ export class ReassignmentService {
   }
 
   async create(createDto: CreateReassignment, user: UserMe) {
-    await this.userService.getUserById(createDto.lastUserId);
     await this.userService.getUserById(createDto.newUserId);
+    const ticket = await this.ticketService.getById(createDto.ticketId);
     await this.ticketService.updateTicket(
       createDto.ticketId,
       {
@@ -38,7 +38,7 @@ export class ReassignmentService {
       user,
     );
     try {
-      const reassignment = Reassignment.create(createDto);
+      const reassignment = Reassignment.create({ ...createDto, lastUserId: ticket.assignedToId });
       await this.reassignmentRepo.save(reassignment);
     } catch (error: any) {
       this.logger.error(error.message);

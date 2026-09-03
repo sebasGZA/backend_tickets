@@ -4,25 +4,25 @@ export class Reassignment {
   constructor(
     readonly id: string,
     readonly ticketId: string,
-    readonly lastUserId: string,
     readonly newUserId: string,
     readonly createdById: string,
+    readonly lastUserId?: string,
     readonly createdAt?: Date,
   ) {}
 
   static create({
     ticketId,
-    lastUserId,
     newUserId,
     createdById,
+    lastUserId,
     createdAt,
   }: CreateReassignment) {
     return new Reassignment(
       crypto.randomUUID(),
       ticketId,
-      lastUserId,
       newUserId,
       createdById,
+      lastUserId,
       createdAt,
     );
   }

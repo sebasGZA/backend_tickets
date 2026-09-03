@@ -1,7 +1,7 @@
-import { CreateReassignment } from '../../dtos/create-reassignment.interface';
+import { Reassignment } from '../../entities/reassignment.entity';
 
 export const REASSIGNMENT_REPOSITORY = 'REASSIGNMENT_REPOSITORY';
 
 export interface ReassignmentRepositoryPort {
-  save(createDto: CreateReassignment): Promise<void>;
+  save(createDto: Reassignment): Promise<void>;
 }

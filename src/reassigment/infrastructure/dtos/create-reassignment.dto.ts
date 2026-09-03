@@ -10,16 +10,9 @@ export class CreateReassignmentDto {
   ticketId!: string;
 
   @ApiProperty({
-    description: "Add the reassignment's last user id",
-  })
-  @IsUUID()
-  @IsNotEmpty()
-  lastUserId!: string;
-
-  @ApiProperty({
     description: "Add the reassignment's new user id",
   })
   @IsUUID()
   @IsNotEmpty()
-  newUserId!: string;
+  assignedToId!: string;
 }
