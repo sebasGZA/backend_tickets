@@ -26,7 +26,7 @@ export class UserTypeORMRepository implements UserRepositoryPort {
     }
 
     async findUsers(query: QueryUser): Promise<FindAllResponseDto<UserResponse>> {
-        const { limit, page, term, roleId, isActive } = query;
+        const { limit, page, term, role, isActive } = query;
 
         const queryBuilder = this.repo.createQueryBuilder('user').leftJoinAndSelect('user.role', 'role')
         if (limit && page) queryBuilder.skip((page - 1) * limit).take(limit)
@@ -34,12 +34,12 @@ export class UserTypeORMRepository implements UserRepositoryPort {
         if (term) {
             queryBuilder
                 .where('user.name ILIKE :term', { term: `%${term.toLowerCase()}%` })
-                .andWhere('user.email ILIKE :term', { term: `%${term.toLowerCase()}%` })
+                .orWhere('user.email ILIKE :term', { term: `%${term.toLowerCase()}%` })
         } else {
             queryBuilder.where('1 = 1')
         }
 
-        if (roleId) queryBuilder.andWhere('user.roleId = :roleId', { roleId })
+        if (role) queryBuilder.andWhere('role.name = :role', { role })
         if (isActive !== undefined && isActive !== null) queryBuilder.andWhere('user.isActive = :isActive', { isActive })
 
         const [result, total] = await queryBuilder.getManyAndCount()

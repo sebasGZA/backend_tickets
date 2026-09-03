@@ -1,8 +1,9 @@
 import { ApiPropertyOptional } from "@nestjs/swagger"
-import { Transform, Type } from "class-transformer"
-import { IsBoolean, IsOptional, IsString, IsUUID } from "class-validator"
+import { Transform } from "class-transformer"
+import { IsBoolean, IsEnum, IsOptional, IsString } from "class-validator"
 
 import { PaginationDto } from "../../../shared/infrastructure/dtos/pagination.dto"
+import { RoleEnum } from "../../../role/domain/enums/role.enum"
 
 export class QueryUserDto extends PaginationDto {
     @ApiPropertyOptional({
@@ -13,11 +14,11 @@ export class QueryUserDto extends PaginationDto {
     term?: string
 
     @ApiPropertyOptional({
-        description: 'Enter the roleId'
+        description: 'Enter the role'
     })
     @IsOptional()
-    @IsUUID()
-    roleId?: string
+    @IsEnum(RoleEnum)
+    role?: RoleEnum
 
     @ApiPropertyOptional({
         description: 'Enter a term to find user by name or email'
