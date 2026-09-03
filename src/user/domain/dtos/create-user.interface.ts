@@ -1,7 +1,9 @@
+import { RoleEnum } from "../../../role/domain/enums/role.enum";
+
 export interface CreateUser {
   name: string;
   email: string;
   password: string;
-  roleId: string;
+  role: RoleEnum;
   isActive?: boolean;
 }

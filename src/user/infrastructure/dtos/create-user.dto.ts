@@ -3,12 +3,14 @@ import { Transform } from 'class-transformer';
 import {
   IsBoolean,
   IsEmail,
+  IsEnum,
   IsNotEmpty,
   IsOptional,
   IsString,
   IsUUID,
   MinLength,
 } from 'class-validator';
+import { RoleEnum } from '../../../role/domain/enums/role.enum';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -35,11 +37,11 @@ export class CreateUserDto {
   password!: string;
 
   @ApiProperty({
-    description: 'Type the user roleId',
+    description: 'Type the user role',
   })
-  @IsUUID()
+  @IsEnum(RoleEnum)
   @IsNotEmpty()
-  roleId!: string;
+  role!: RoleEnum;
 
   @ApiProperty({
     description:

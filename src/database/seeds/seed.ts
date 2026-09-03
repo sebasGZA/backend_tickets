@@ -10,6 +10,7 @@ import { StatusService } from '../../status/application/services/status.service'
 import { StatusEnum } from '../../status/domain/enums/status.enum';
 import { PriorityService } from '../../priority/application/services/priority.service';
 import { PriorityEnum } from '../../priority/domain/enums/priority.enum';
+import { Role } from '../../role/domain/entities/role.entity';
 
 async function bootstrap() {
   const app = await NestFactory.createApplicationContext(AppModule);
@@ -17,7 +18,7 @@ async function bootstrap() {
   await prioritiesToCreate(app);
   await statusesToCreate(app);
   const role = await rolesToCreate(app);
-  await userToCreate(app, role.id);
+  await userToCreate(app, role);
 
   await app.close();
   Logger.log('Seeds completed', 'Seed');
@@ -73,7 +74,7 @@ const rolesToCreate = async (app: INestApplicationContext) => {
   return adminRole;
 };
 
-const userToCreate = async (app: INestApplicationContext, roleId: string) => {
+const userToCreate = async (app: INestApplicationContext, role: Role) => {
   const configService = app.get(ConfigService);
   const userService = app.get(UserService);
   const name = 'admin';
@@ -85,7 +86,7 @@ const userToCreate = async (app: INestApplicationContext, roleId: string) => {
   const adminExist = await userService.getUserSeed(email);
   if (adminExist) return;
 
-  await userService.createUser({ name, email, roleId, password });
+  await userService.createUser({ name, email, role: role.name, password });
 };
 
 bootstrap().catch((err: any) => {

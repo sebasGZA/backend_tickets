@@ -52,16 +52,17 @@ export class UserService {
   async createUser({
     name,
     email,
-    roleId,
+    role,
     password,
     isActive,
   }: CreateUser): Promise<void> {
     const existingUser = await this.userRepo.findUserEmail(email);
     if (existingUser)
       throw new BadRequestException(`User with email ${email} already exists`);
-    const role = await this.roleService.getById(roleId);
+    const roleDb = await this.roleService.getByName(role);
+    if (!roleDb) throw new NotFoundException(`Role wih name ${name} not found`)
     const passwordHash = bcrypt.hashSync(password, this.saltRounds);
-    const user = User.create(name, email, passwordHash, roleId, role, isActive);
+    const user = User.create(name, email, passwordHash, roleDb.id, roleDb, isActive);
     return this.userRepo.save(user);
   }
 }
