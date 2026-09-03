@@ -14,6 +14,7 @@ import {
 import { QueryClient } from './../../domain/dtos/query-client.interface';
 import { Client } from '../../domain/entities/client.entity';
 import { CreateClient } from '../../domain/dtos/create-client.interface';
+import { UpdateClient } from '../../domain/dtos/update-client.interface';
 
 @Injectable()
 export class ClientService {
@@ -36,6 +37,19 @@ export class ClientService {
           `Client with email ${email} already exists`,
         );
       throw new InternalServerErrorException(error.mesage);
+    }
+  }
+
+  update(id: string, updateDto: UpdateClient) {
+    try {
+      return this.clientRepo.update(id, updateDto)
+    } catch (error: any) {
+      this.logger.error(error.message);
+      if (error.code === '23505')
+        throw new BadRequestException(
+          `Client with email ${updateDto.email} already exists`,
+        );
+      throw new Error(error.mesage);
     }
   }
 

@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 
 import { ClientTypeORMEntity } from '../../persistence/client-typeorm.entity';
@@ -7,16 +7,23 @@ import { ClientRepositoryPort } from '../../../domain/ports/repositories/client-
 import { Client } from '../../../domain/entities/client.entity';
 import { QueryClient } from '../../../domain/dtos/query-client.interface';
 import { FindAllResponseDto } from '../../../../shared/domain/dtos/find-all-response.interface';
+import { UpdateClient } from 'src/client/domain/dtos/update-client.interface';
 
 @Injectable()
 export class ClientTypeORMRepository implements ClientRepositoryPort {
   constructor(
     @InjectRepository(ClientTypeORMEntity)
     private readonly repo: Repository<ClientTypeORMEntity>,
-  ) {}
+  ) { }
 
   async save(client: Client): Promise<void> {
     await this.repo.save(client);
+  }
+
+  async update(id: string, updateDto: UpdateClient): Promise<void> {
+    const client = await this.repo.preload({ id, ...updateDto })
+    if (!client) throw new NotFoundException(`Client with id ${id} not found`)
+    await this.repo.save(client)
   }
 
   findById(id: string): Promise<Client | null> {
