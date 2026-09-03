@@ -33,14 +33,17 @@ export class TicketService {
     private readonly priorityService: PriorityService,
     private readonly statusService: StatusService,
     private readonly userService: UserService,
-  ) {}
+  ) { }
 
-  async create(createDto: CreateTicket): Promise<void> {
+  async create({ role, userId }: UserMe, createDto: CreateTicket): Promise<void> {
     await this.clientService.getById(createDto.clientId);
     const priority = await this.priorityService.getByName(createDto.priority);
     const status = await this.statusService.getByName(StatusEnum.ABIERTO);
+
     if (createDto.assignedToId) {
       await this.userService.getUserById(createDto.assignedToId);
+    } else {
+      if (role == RoleEnum.SOPORTE) createDto.assignedToId = userId
     }
     const { clientId, createdById, description, title, assignedToId } =
       createDto;

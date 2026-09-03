@@ -23,7 +23,7 @@ import { type UserMe } from '../../../auth/domain/dtos/user-me.interface';
 @ApiTags('Tickets')
 @Controller('tickets')
 export class TicketController {
-  constructor(private readonly ticketService: TicketService) {}
+  constructor(private readonly ticketService: TicketService) { }
 
   @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR, RoleEnum.SOPORTE)
   @Get()
@@ -46,7 +46,7 @@ export class TicketController {
   @Roles(RoleEnum.ADMIN, RoleEnum.SOPORTE)
   @Post()
   postTicket(@CurrentUser() user: UserMe, @Body() createDto: CreateTicketDto) {
-    return this.ticketService.create({
+    return this.ticketService.create(user, {
       ...createDto,
       createdById: user.userId,
     });
