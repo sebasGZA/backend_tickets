@@ -21,8 +21,8 @@ import { StatusService } from '../../../status/application/services/status.servi
 import { UpdateTicket } from '../../domain/dtos/update-ticket.interface';
 import { RoleEnum } from '../../../role/domain/enums/role.enum';
 import { StatusEnum } from '../../../status/domain/enums/status.enum';
-import { Priority } from 'src/priority/domain/entities/priority.entity';
-import { Status } from 'src/status/domain/entities/status.entity';
+import { Priority } from '../../../priority/domain/entities/priority.entity';
+import { Status } from '../../../status/domain/entities/status.entity';
 
 @Injectable()
 export class TicketService {

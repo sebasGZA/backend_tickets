@@ -6,7 +6,7 @@ import {
   IsString,
   IsUUID,
 } from 'class-validator';
-import { PriorityEnum } from 'src/priority/domain/enums/priority.enum';
+import { PriorityEnum } from '../../../priority/domain/enums/priority.enum';
 
 export class CreateTicketDto {
   @ApiProperty({

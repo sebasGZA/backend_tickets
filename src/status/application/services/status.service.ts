@@ -12,7 +12,7 @@ import {
 } from '../../domain/ports/repositories/status-repository.port';
 import { Status } from '../../domain/entities/status.entity';
 import { CreateStatus } from '../../domain/dtos/create-status.interface';
-import { StatusEnum } from 'src/status/domain/enums/status.enum';
+import { StatusEnum } from '../../domain/enums/status.enum';
 
 @Injectable()
 export class StatusService {

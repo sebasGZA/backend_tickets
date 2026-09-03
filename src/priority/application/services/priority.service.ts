@@ -12,7 +12,7 @@ import {
 } from '../../domain/ports/repositories/priority-repository.port';
 import { Priority } from '../../domain/entities/priority.entity';
 import { CreatePriority } from '../../domain/dtos/create-priority.interface';
-import { PriorityEnum } from 'src/priority/domain/enums/priority.enum';
+import { PriorityEnum } from '../../domain/enums/priority.enum';
 
 @Injectable()
 export class PriorityService {

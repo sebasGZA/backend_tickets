@@ -5,8 +5,8 @@ import { ReassignmentService } from './../../application/services/reassignment.s
 import { CreateReassignmentDto } from '../dtos/create-reassignment.dto';
 import { CurrentUser } from '../../../auth/infrastructure/decorators/current-user.decorator';
 import { type UserMe } from '../../../auth/domain/dtos/user-me.interface';
-import { Roles } from 'src/auth/infrastructure/decorators/roles.decorator';
-import { RoleEnum } from 'src/role/domain/enums/role.enum';
+import { Roles } from '../../../auth/infrastructure/decorators/roles.decorator';
+import { RoleEnum } from '../../../role/domain/enums/role.enum';
 
 @ApiBearerAuth()
 @ApiTags('Reassignments')

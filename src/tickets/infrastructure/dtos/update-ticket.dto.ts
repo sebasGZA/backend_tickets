@@ -2,7 +2,7 @@ import { ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsOptional, IsUUID } from 'class-validator';
 
 import { CreateTicketDto } from './create-ticket.dto';
-import { StatusEnum } from 'src/status/domain/enums/status.enum';
+import { StatusEnum } from '../../../status/domain/enums/status.enum';
 
 export class UpdateTicketDto extends PartialType(CreateTicketDto) {
   @ApiPropertyOptional({

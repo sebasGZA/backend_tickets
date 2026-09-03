@@ -7,7 +7,7 @@ import { ClientRepositoryPort } from '../../../domain/ports/repositories/client-
 import { Client } from '../../../domain/entities/client.entity';
 import { QueryClient } from '../../../domain/dtos/query-client.interface';
 import { FindAllResponseDto } from '../../../../shared/domain/dtos/find-all-response.interface';
-import { UpdateClient } from 'src/client/domain/dtos/update-client.interface';
+import { UpdateClient } from '../../../domain/dtos/update-client.interface';
 
 @Injectable()
 export class ClientTypeORMRepository implements ClientRepositoryPort {
