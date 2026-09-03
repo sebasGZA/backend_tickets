@@ -1,9 +1,9 @@
-import { Priority } from "../../entities/priority.entity";
+import { Priority } from '../../entities/priority.entity';
 
 export const PRIORITY_REPOSITORY = 'PRIORITY_REPOSITORY';
 
 export interface PriorityRepositoryPort {
-    save(priority: Priority): Promise<void>;
-    findAll(): Promise<Priority[]>;
-    findById(id: string): Promise<Priority | null>;
+  save(priority: Priority): Promise<void>;
+  findAll(): Promise<Priority[]>;
+  findById(id: string): Promise<Priority | null>;
 }

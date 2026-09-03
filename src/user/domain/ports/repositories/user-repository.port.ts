@@ -1,12 +1,12 @@
-import { QueryUser } from "../../dtos/query-user.interface"
-import { User } from "../../entities/user.entity"
+import { QueryUser } from '../../dtos/query-user.interface';
+import { User } from '../../entities/user.entity';
 import { FindAllResponseDto } from '../../../../shared/domain/dtos/find-all-response.interface';
-import { UserResponse } from "../../dtos/user-response.interface";
+import { UserResponse } from '../../dtos/user-response.interface';
 
-export const USER_REPOSITORY = 'USER_REPOSITORY'
+export const USER_REPOSITORY = 'USER_REPOSITORY';
 export interface UserRepositoryPort {
-    save(user: User): Promise<void>
-    findUserEmail(email: string): Promise<User | null>
-    findUserId(id: string): Promise<User | null>
-    findUsers(queryUser: QueryUser): Promise<FindAllResponseDto<UserResponse>>
+  save(user: User): Promise<void>;
+  findUserEmail(email: string): Promise<User | null>;
+  findUserId(id: string): Promise<User | null>;
+  findUsers(queryUser: QueryUser): Promise<FindAllResponseDto<UserResponse>>;
 }

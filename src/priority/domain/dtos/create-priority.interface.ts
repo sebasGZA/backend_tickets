@@ -1,5 +1,5 @@
-import { PriorityEnum } from "../enums/priority.enum";
+import { PriorityEnum } from '../enums/priority.enum';
 
 export interface CreatePriority {
-    name: PriorityEnum;
+  name: PriorityEnum;
 }

@@ -1,5 +1,5 @@
-import 'dotenv/config'
-import { DataSource } from "typeorm";
+import 'dotenv/config';
+import { DataSource } from 'typeorm';
 
 import { ClientTypeORMEntity } from '../../client/infrastructure/persistence/client-typeorm.entity';
 import { CommentTypeORMEntity } from '../../comment/infrastructure/persistence/comment-typeorm.entity';
@@ -11,19 +11,22 @@ import { TicketTypeORMEntity } from '../../tickets/infrastructure/persistence/ti
 import { UserTypeORMEntity } from '../../user/infrastructure/persistence/user-typeorm.entity';
 
 export const dataSource = new DataSource({
-    type: 'postgres',
-    url: process.env.DB_URL,
-    entities: [
-        ClientTypeORMEntity,
-        CommentTypeORMEntity,
-        PriorityTypeORMEntity,
-        ReassignmentTypeORMEntity,
-        RoleTypeORMEntity,
-        StatusTypeORMEntity,
-        TicketTypeORMEntity,
-        UserTypeORMEntity,
-    ],
-    migrations: ['src/migrations/*{.ts,.js}'],
-    synchronize: false,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
-})
+  type: 'postgres',
+  url: process.env.DB_URL,
+  entities: [
+    ClientTypeORMEntity,
+    CommentTypeORMEntity,
+    PriorityTypeORMEntity,
+    ReassignmentTypeORMEntity,
+    RoleTypeORMEntity,
+    StatusTypeORMEntity,
+    TicketTypeORMEntity,
+    UserTypeORMEntity,
+  ],
+  migrations: ['src/migrations/*{.ts,.js}'],
+  synchronize: false,
+  ssl:
+    process.env.NODE_ENV === 'production'
+      ? { rejectUnauthorized: false }
+      : false,
+});

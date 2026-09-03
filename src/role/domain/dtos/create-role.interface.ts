@@ -1,5 +1,5 @@
-import { RoleEnum } from "../enums/role.enum";
+import { RoleEnum } from '../enums/role.enum';
 
 export interface CreateRole {
-    name: RoleEnum;
+  name: RoleEnum;
 }

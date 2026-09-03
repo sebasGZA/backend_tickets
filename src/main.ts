@@ -14,18 +14,20 @@ async function bootstrap() {
   app.enableCors({
     origin: [process.env.CORS_ORIGIN],
     credentials: true,
-  })
+  });
 
   swaggerConfiguration(app);
   app.setGlobalPrefix(prefix);
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    forbidNonWhitelisted: true,
-    transform: true,
-  }));
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
 
   await app.listen(port, () => {
-    Logger.log(`Server is running on port ${port}`, 'main')
+    Logger.log(`Server is running on port ${port}`, 'main');
   });
 }
 bootstrap();

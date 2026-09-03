@@ -1,5 +1,5 @@
-import { Pagination } from "../../../shared/domain/dtos/pagination.interface";
+import { Pagination } from '../../../shared/domain/dtos/pagination.interface';
 
 export interface QueryClient extends Pagination {
-    term?: string;
+  term?: string;
 }

@@ -12,11 +12,17 @@ import { RoleEnum } from 'src/role/domain/enums/role.enum';
 @ApiTags('Reassignments')
 @Controller('reassignments')
 export class ReassignmentController {
-    constructor(private readonly reassignmentService: ReassignmentService) { }
+  constructor(private readonly reassignmentService: ReassignmentService) {}
 
-    @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR)
-    @Post()
-    postReassignment(@CurrentUser() user: UserMe, @Body() createDto: CreateReassignmentDto) {
-        return this.reassignmentService.create({ ...createDto, createdById: user.userId }, user)
-    }
+  @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR)
+  @Post()
+  postReassignment(
+    @CurrentUser() user: UserMe,
+    @Body() createDto: CreateReassignmentDto,
+  ) {
+    return this.reassignmentService.create(
+      { ...createDto, createdById: user.userId },
+      user,
+    );
+  }
 }

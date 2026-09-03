@@ -1,13 +1,13 @@
-import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsOptional, IsString } from "class-validator";
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
-import { PaginationDto } from "../../../shared/infrastructure/dtos/pagination.dto";
+import { PaginationDto } from '../../../shared/infrastructure/dtos/pagination.dto';
 
 export class QueryClientDto extends PaginationDto {
-    @ApiPropertyOptional({
-        description: 'Enter a term to find clients by name'
-    })
-    @IsOptional()
-    @IsString()
-    term?: string
+  @ApiPropertyOptional({
+    description: 'Enter a term to find clients by name',
+  })
+  @IsOptional()
+  @IsString()
+  term?: string;
 }

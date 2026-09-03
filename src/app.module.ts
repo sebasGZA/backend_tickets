@@ -16,7 +16,6 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/infrastructure/guards/jwt-auth.guard';
 import { RolesGuard } from './auth/infrastructure/guards/roles.guard';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -39,4 +38,4 @@ import { RolesGuard } from './auth/infrastructure/guards/roles.guard';
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
-export class AppModule { }
+export class AppModule {}
