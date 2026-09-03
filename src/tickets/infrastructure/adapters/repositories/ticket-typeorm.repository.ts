@@ -15,7 +15,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
   constructor(
     @InjectRepository(TicketTypeORMEntity)
     private readonly repo: Repository<TicketTypeORMEntity>,
-  ) {}
+  ) { }
 
   async save({
     id,
@@ -141,6 +141,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         client: client.name,
         clientId: client.id,
         assignedTo: assignedTo?.name,
+        assignedToId: assignedTo?.id,
         createdAt,
         closedAt,
         resolvedAt,

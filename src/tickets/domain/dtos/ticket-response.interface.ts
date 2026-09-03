@@ -10,6 +10,7 @@ export interface TicketResponse {
   client: string;
   clientId: string;
   assignedTo?: string;
+  assignedToId?: string;
   createdAt: Date;
   closedAt?: Date;
   resolvedAt?: Date;

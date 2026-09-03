@@ -11,25 +11,28 @@ import { UpdateUserDto } from '../dtos/update-user.dto';
 @ApiBearerAuth()
 @ApiTags('Users')
 @Controller('users')
-@Roles(RoleEnum.ADMIN)
 export class UserController {
   constructor(private readonly userService: UserService) { }
 
+  @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR)
   @Get()
   getUsers(@Query() queryDto: QueryUserDto) {
     return this.userService.getUsers(queryDto);
   }
 
+  @Roles(RoleEnum.ADMIN)
   @Get(':email')
   getUser(@Param('email') email: string) {
     return this.userService.getUserEmail(email);
   }
 
+  @Roles(RoleEnum.ADMIN)
   @Post()
   postUser(@Body() createDto: CreateUserDto) {
     return this.userService.createUser(createDto);
   }
 
+  @Roles(RoleEnum.ADMIN)
   @Patch(':id')
   patchUser(
     @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
