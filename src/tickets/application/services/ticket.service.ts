@@ -99,7 +99,7 @@ export class TicketService {
     if (status) {
       statusDb = await this.statusService.getByName(status);
       if (statusDb.name === StatusEnum.CERRADO && role === RoleEnum.SOPORTE)
-        throw new ForbiddenException('The user cannot update this ticket');
+        updateTicketDto.closedAt = new Date()
     }
     if (assignedToId) await this.userService.getUserById(assignedToId);
     await this.ticketRepo.update(id, {
