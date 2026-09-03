@@ -25,7 +25,11 @@ export class ClientTypeORMRepository implements ClientRepositoryPort {
 
     async findAll({ term, page, limit }: QueryClient): Promise<FindAllResponseDto<Client>> {
         const queryBuilder = this.repo.createQueryBuilder('client')
-        if (term) queryBuilder.where('client.name ILIKE :term', { term: `%${term.toLowerCase()}%` })
+        if (term) {
+            queryBuilder
+                .where('client.name ILIKE :term', { term: `%${term.toLowerCase()}%` })
+                .orWhere('client.email ILIKE :term', { term: `%${term.toLowerCase()}%` })
+        }
         if (page && limit) queryBuilder.skip((page - 1) * limit).take(limit)
 
         const [result, total] = await queryBuilder.getManyAndCount();
