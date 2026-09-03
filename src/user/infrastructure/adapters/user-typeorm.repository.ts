@@ -7,6 +7,7 @@ import { User } from "../../domain/entities/user.entity";
 import { UserTypeORMEntity } from "../persistence/user-typeorm.entity";
 import { QueryUser } from "../../domain/dtos/query-user.interface";
 import { FindAllResponseDto } from "../../../shared/domain/dtos/find-all-response.interface";
+import { UserResponse } from "../../domain/dtos/user-response.interface";
 
 @Injectable()
 export class UserTypeORMRepository implements UserRepositoryPort {
@@ -24,7 +25,7 @@ export class UserTypeORMRepository implements UserRepositoryPort {
         }
     }
 
-    async findUsers(query: QueryUser): Promise<FindAllResponseDto<User>> {
+    async findUsers(query: QueryUser): Promise<FindAllResponseDto<UserResponse>> {
         const { limit, page, term, roleId, isActive } = query;
 
         const queryBuilder = this.repo.createQueryBuilder('user').leftJoinAndSelect('user.role', 'role')
@@ -64,16 +65,14 @@ export class UserTypeORMRepository implements UserRepositoryPort {
     }
 
 
-    private transformResult(usersDB: UserTypeORMEntity[]): User[] {
-        return usersDB.map((u) => new User(
-            u.id,
-            u.name,
-            u.email,
-            u.password,
-            u.roleId,
-            u.role,
-            u.isActive,
-            u.createdAt
-        ))
+    private transformResult(usersDB: UserTypeORMEntity[]): UserResponse[] {
+        return usersDB.map(({ id, name, email, role, isActive, createdAt }) => ({
+            id,
+            name,
+            email,
+            role: role.name,
+            isActive,
+            createdAt,
+        }))
     }
 }

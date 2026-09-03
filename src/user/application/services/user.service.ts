@@ -1,4 +1,3 @@
-import { ConfigService } from "@nestjs/config";
 import { BadRequestException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import * as bcrypt from 'bcrypt';
 
@@ -8,6 +7,7 @@ import { User } from "../../domain/entities/user.entity";
 import { FindAllResponseDto } from "../../../shared/domain/dtos/find-all-response.interface";
 import { CreateUser } from "../../domain/dtos/create-user.interface";
 import { RoleService } from "../../../role/application/services/role.service";
+import { UserResponse } from "../../domain/dtos/user-response.interface";
 
 @Injectable()
 export class UserService {
@@ -20,7 +20,7 @@ export class UserService {
         this.saltRounds = parseInt(process.env.PASSWORD_SALT_ROUNDS!) || 10;
     }
 
-    getUsers(queryDto: QueryUser): Promise<FindAllResponseDto<User>> {
+    getUsers(queryDto: QueryUser): Promise<FindAllResponseDto<UserResponse>> {
         return this.userRepo.findUsers(queryDto);
     }
 
