@@ -1,7 +1,9 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsOptional, IsString, IsUUID } from "class-validator";
+import { IsEnum, IsOptional, IsString, IsUUID } from "class-validator";
 
 import { PaginationDto } from "../../../shared/infrastructure/dtos/pagination.dto";
+import { StatusEnum } from "../../../status/domain/enums/status.enum";
+import { PriorityEnum } from "../../../priority/domain/enums/priority.enum";
 
 export class QueryTicketDto extends PaginationDto {
 
@@ -13,25 +15,18 @@ export class QueryTicketDto extends PaginationDto {
     term?: string;
 
     @ApiPropertyOptional({
-        description: 'Enter the statusId to find'
+        description: 'Enter the status to find'
     })
     @IsOptional()
-    @IsUUID()
-    statusId?: string;
+    @IsEnum(StatusEnum)
+    status?: StatusEnum;
 
     @ApiPropertyOptional({
-        description: 'Enter the priorityId to find'
+        description: 'Enter the priority to find'
     })
     @IsOptional()
-    @IsUUID()
-    priorityId?: string;
-
-    @ApiPropertyOptional({
-        description: 'Enter the clientId to find'
-    })
-    @IsOptional()
-    @IsUUID()
-    clientId?: string;
+    @IsEnum(PriorityEnum)
+    priority?: PriorityEnum;
 
     @ApiPropertyOptional({
         description: 'Enter the createdById to find'

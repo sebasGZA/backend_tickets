@@ -8,6 +8,7 @@ import { Ticket } from "../../../domain/entities/ticket.entity";
 import { QueryTicket } from "../../../domain/dtos/query-ticket.interface";
 import { FindAllResponseDto } from "../../../../shared/domain/dtos/find-all-response.interface";
 import { UpdateTicket } from "../../../domain/dtos/update-ticket.interface";
+import { TicketResponse } from "../../../domain/dtos/ticket-response.interface";
 
 @Injectable()
 export class TicketTypeORMRepository implements TicketRepositoryPort {
@@ -24,12 +25,14 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         return this.repo.findOne({ where: { id } })
     }
 
-    async findAll(queryTicket: QueryTicket): Promise<FindAllResponseDto<Ticket>> {
-        const { limit, page, term, priorityId, statusId, createdById } = queryTicket;
+    async findAll(queryTicket: QueryTicket): Promise<FindAllResponseDto<TicketResponse>> {
+        const { limit, page, term, priority, status, createdById } = queryTicket;
 
         const queryBuilder = this.repo.createQueryBuilder('ticket')
             .leftJoinAndSelect('ticket.priority', 'priority')
             .leftJoinAndSelect('ticket.status', 'status')
+            .leftJoinAndSelect('ticket.client', 'client')
+            .leftJoinAndSelect('ticket.assignedTo', 'assignedTo')
 
         if (limit && page) queryBuilder.skip((page - 1) * limit).take(limit)
 
@@ -37,12 +40,13 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
             queryBuilder
                 .where('ticket.title ILIKE :term', { term: `%${term.toLowerCase()}%` })
                 .orWhere('ticket.description ILIKE :term', { term: `%${term.toLowerCase()}%` })
+                .orWhere('client.name ILIKE :term', { term: `%${term.toLowerCase()}%` })
         } else {
             queryBuilder.where('1 = 1')
         }
 
-        if (priorityId) queryBuilder.andWhere('ticket.priorityId = :priorityId', { priorityId })
-        if (statusId) queryBuilder.andWhere('ticket.statusId = :statusId', { statusId })
+        if (priority) queryBuilder.andWhere('priority.name = :priority', { priority })
+        if (status) queryBuilder.andWhere('status.name = :status', { status })
         if (createdById) queryBuilder.andWhere('ticket.createdById = :createdById', { createdById })
 
         const [result, total] = await queryBuilder.getManyAndCount()
@@ -60,21 +64,29 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         await this.repo.save(ticket)
     }
 
-    private transformResult(ticketsDB: TicketTypeORMEntity[]): Ticket[] {
-        return ticketsDB.map((t) => new Ticket(
-            t.id,
-            t.title,
-            t.description,
-            t.statusId,
-            t.priorityId,
-            t.clientId,
-            t.createdById,
-            t.createdAt,
-            t.assignedToId,
-            t.updatedAt,
-            t.updatedById,
-            t.closedAt,
-            t.resolvedAt
-        ));
+    private transformResult(ticketsDB: TicketTypeORMEntity[]): TicketResponse[] {
+        return ticketsDB.map(({
+            id,
+            title,
+            description,
+            status,
+            priority,
+            client,
+            assignedTo,
+            createdAt,
+            closedAt,
+            resolvedAt,
+        }) => ({
+            id,
+            title,
+            description,
+            status: status.name,
+            priority: priority.name,
+            client: client.name,
+            assignedTo: assignedTo?.name,
+            createdAt,
+            closedAt,
+            resolvedAt,
+        }));
     }
 }
