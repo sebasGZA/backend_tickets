@@ -20,7 +20,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
   constructor(
     @InjectRepository(TicketTypeORMEntity)
     private readonly repo: Repository<TicketTypeORMEntity>,
-  ) { }
+  ) {}
 
   async save({
     id,
@@ -98,7 +98,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
       .leftJoinAndSelect('ticket.status', 'status')
       .leftJoinAndSelect('ticket.client', 'client')
       .leftJoinAndSelect('ticket.assignedTo', 'assignedTo')
-      .leftJoinAndSelect('ticket.createdBy', 'cretedBy')
+      .leftJoinAndSelect('ticket.createdBy', 'cretedBy');
 
     if (limit && page) queryBuilder.skip((page - 1) * limit).take(limit);
 
@@ -154,7 +154,8 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
   }
 
   async agentPerformance(): Promise<any[]> {
-    const queryBuilder = this.repo.createQueryBuilder('ticket')
+    const queryBuilder = this.repo
+      .createQueryBuilder('ticket')
       .innerJoin('ticket.status', 'status')
       .innerJoin('ticket.priority', 'priority')
       .innerJoin('ticket.assignedTo', 'user')
@@ -164,37 +165,46 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         'user.id AS "agentId"',
         'user.name AS "agentName"',
         'COUNT(ticket.id) AS "ticketsAssigned"',
-        `SUM(CASE WHEN status.name = 'Cerrado' THEN 1 ELSE 0 END) AS "ticketsResolved"`
+        `SUM(CASE WHEN status.name = 'Cerrado' THEN 1 ELSE 0 END) AS "ticketsResolved"`,
       ])
       .groupBy('user.id')
-      .addGroupBy('user.name')
+      .addGroupBy('user.name');
 
-
-    const result = await queryBuilder.getRawMany()
-    return result
+    const result = await queryBuilder.getRawMany();
+    return result;
   }
 
   async ticketMetrics(): Promise<TicketMetric> {
-    const queryBuilder = this.repo.createQueryBuilder('ticket')
+    const queryBuilder = this.repo
+      .createQueryBuilder('ticket')
       .leftJoinAndSelect('ticket.status', 'status')
-      .leftJoinAndSelect('ticket.priority', 'priority')
+      .leftJoinAndSelect('ticket.priority', 'priority');
 
-    const [data, total] = await queryBuilder.getManyAndCount()
+    const [data, total] = await queryBuilder.getManyAndCount();
 
     return {
       totalTickets: total,
-      openTickets: data.filter(d => d.status.name === StatusEnum.ABIERTO).length ?? 0,
-      closedTickets: data.filter(d => d.status.name === StatusEnum.CERRADO).length ?? 0,
-      inProcessTickets: data.filter(d => d.status.name === StatusEnum.EN_PROCESO).length ?? 0,
+      openTickets:
+        data.filter((d) => d.status.name === StatusEnum.ABIERTO).length ?? 0,
+      closedTickets:
+        data.filter((d) => d.status.name === StatusEnum.CERRADO).length ?? 0,
+      inProcessTickets:
+        data.filter((d) => d.status.name === StatusEnum.EN_PROCESO).length ?? 0,
       ticketsByPriority: {
-        Baja: data.filter(d => d.priority.name === PriorityEnum.BAJA).length ?? 0,
-        Media: data.filter(d => d.priority.name === PriorityEnum.MEDIA).length ?? 0,
-        Alta: data.filter(d => d.priority.name === PriorityEnum.ALTA).length ?? 0,
-        Critica: data.filter(d => d.priority.name === PriorityEnum.CRITICA).length ?? 0
+        Baja:
+          data.filter((d) => d.priority.name === PriorityEnum.BAJA).length ?? 0,
+        Media:
+          data.filter((d) => d.priority.name === PriorityEnum.MEDIA).length ??
+          0,
+        Alta:
+          data.filter((d) => d.priority.name === PriorityEnum.ALTA).length ?? 0,
+        Critica:
+          data.filter((d) => d.priority.name === PriorityEnum.CRITICA).length ??
+          0,
       },
-      overdueTickets: data.filter(d => d.updatedAt === null || !d.updatedAt).length ?? 0
-    }
-
+      overdueTickets:
+        data.filter((d) => d.updatedAt === null || !d.updatedAt).length ?? 0,
+    };
   }
 
   private transformResult(ticketsDB: TicketTypeORMEntity[]): TicketResponse[] {
@@ -209,7 +219,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         assignedTo,
         createdAt,
         closedAt,
-        createdBy
+        createdBy,
       }) => ({
         id,
         title,

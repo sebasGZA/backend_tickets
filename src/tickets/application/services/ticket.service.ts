@@ -33,9 +33,12 @@ export class TicketService {
     private readonly priorityService: PriorityService,
     private readonly statusService: StatusService,
     private readonly userService: UserService,
-  ) { }
+  ) {}
 
-  async create({ role, userId }: UserMe, createDto: CreateTicket): Promise<void> {
+  async create(
+    { role, userId }: UserMe,
+    createDto: CreateTicket,
+  ): Promise<void> {
     await this.clientService.getById(createDto.clientId);
     const priority = await this.priorityService.getByName(createDto.priority);
     const status = await this.statusService.getByName(StatusEnum.ABIERTO);
@@ -43,7 +46,7 @@ export class TicketService {
     if (createDto.assignedToId) {
       await this.userService.getUserById(createDto.assignedToId);
     } else {
-      if (role == RoleEnum.SOPORTE) createDto.assignedToId = userId
+      if (role == RoleEnum.SOPORTE) createDto.assignedToId = userId;
     }
     const { clientId, createdById, description, title, assignedToId } =
       createDto;
@@ -99,7 +102,7 @@ export class TicketService {
     if (status) {
       statusDb = await this.statusService.getByName(status);
       if (statusDb.name === StatusEnum.CERRADO && role === RoleEnum.SOPORTE)
-        updateTicketDto.closedAt = new Date()
+        updateTicketDto.closedAt = new Date();
     }
     if (assignedToId) await this.userService.getUserById(assignedToId);
     await this.ticketRepo.update(id, {
@@ -110,10 +113,10 @@ export class TicketService {
   }
 
   ticketMetrics() {
-    return this.ticketRepo.ticketMetrics()
+    return this.ticketRepo.ticketMetrics();
   }
 
   agentPerformance() {
-    return this.ticketRepo.agentPerformance()
+    return this.ticketRepo.agentPerformance();
   }
 }

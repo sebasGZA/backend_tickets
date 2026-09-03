@@ -23,7 +23,7 @@ import { type UserMe } from '../../../auth/domain/dtos/user-me.interface';
 @ApiTags('Tickets')
 @Controller('tickets')
 export class TicketController {
-  constructor(private readonly ticketService: TicketService) { }
+  constructor(private readonly ticketService: TicketService) {}
 
   @Roles(RoleEnum.ADMIN, RoleEnum.SUPERVISOR, RoleEnum.SOPORTE)
   @Get()

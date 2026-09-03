@@ -40,4 +40,4 @@ import { MetricModule } from './metric/metric.module';
     { provide: APP_GUARD, useClass: RolesGuard },
   ],
 })
-export class AppModule { }
+export class AppModule {}
