@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt'
 import { Login } from "../../domain/dtos/login.interface";
 import { UserService } from "../../../user/application/services/user.service";
 import { JwtPayload } from "../../domain/dtos/jwt-payload.interface";
+import { LoginResponse } from "../../domain/dtos/login-response.interface";
 
 @Injectable()
 export class AuthService {
@@ -13,7 +14,7 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) { }
 
-    async login({ email, password }: Login) {
+    async login({ email, password }: Login): Promise<LoginResponse> {
         const user = await this.userService.getUserEmail(email)
         let valid: boolean
         try {
@@ -29,11 +30,16 @@ export class AuthService {
         };
 
         return {
+            user: {
+                userId: payload.sub,
+                email: payload.email,
+                role: payload.role
+            },
             token: this.jwtService.sign(payload)
         }
     }
 
-    async refreshToken(currentToken: string) {
+    async refreshToken(currentToken: string): Promise<LoginResponse> {
         let payload: JwtPayload;
 
         try {
@@ -48,6 +54,14 @@ export class AuthService {
         const { sub, email, role } = payload;
         const token = this.jwtService.sign({ sub, email, role });
 
-        return { token };
+
+        return {
+            user: {
+                userId: sub,
+                email,
+                role,
+            },
+            token,
+        };
     }
 } 
