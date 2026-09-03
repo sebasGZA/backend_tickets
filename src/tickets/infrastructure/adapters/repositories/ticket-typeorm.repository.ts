@@ -93,7 +93,8 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
       .leftJoinAndSelect('ticket.priority', 'priority')
       .leftJoinAndSelect('ticket.status', 'status')
       .leftJoinAndSelect('ticket.client', 'client')
-      .leftJoinAndSelect('ticket.assignedTo', 'assignedTo');
+      .leftJoinAndSelect('ticket.assignedTo', 'assignedTo')
+      .leftJoinAndSelect('ticket.createdBy', 'cretedBy')
 
     if (limit && page) queryBuilder.skip((page - 1) * limit).take(limit);
 
