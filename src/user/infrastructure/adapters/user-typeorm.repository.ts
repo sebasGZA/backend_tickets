@@ -3,6 +3,7 @@ import {
   BadRequestException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -12,13 +13,14 @@ import { UserTypeORMEntity } from '../persistence/user-typeorm.entity';
 import { QueryUser } from '../../domain/dtos/query-user.interface';
 import { FindAllResponseDto } from '../../../shared/domain/dtos/find-all-response.interface';
 import { UserResponse } from '../../domain/dtos/user-response.interface';
+import { UpdateUser } from '../../domain/dtos/update-user.interface';
 
 @Injectable()
 export class UserTypeORMRepository implements UserRepositoryPort {
   constructor(
     @InjectRepository(UserTypeORMEntity)
     private readonly repo: Repository<UserTypeORMEntity>,
-  ) {}
+  ) { }
 
   async save(user: User): Promise<void> {
     try {
@@ -72,6 +74,18 @@ export class UserTypeORMRepository implements UserRepositoryPort {
         role: true,
       },
     });
+  }
+
+  async update(id: string, updateDto: UpdateUser): Promise<void> {
+    const ticket = await this.repo.preload({
+      id,
+      ...updateDto,
+      role: {
+        id: updateDto.roleId,
+      }
+    });
+    if (!ticket) throw new NotFoundException(`User with id ${id} not found`);
+    await this.repo.save(ticket);
   }
 
   private transformResult(usersDB: UserTypeORMEntity[]): UserResponse[] {

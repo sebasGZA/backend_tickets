@@ -2,6 +2,7 @@ import { QueryUser } from '../../dtos/query-user.interface';
 import { User } from '../../entities/user.entity';
 import { FindAllResponseDto } from '../../../../shared/domain/dtos/find-all-response.interface';
 import { UserResponse } from '../../dtos/user-response.interface';
+import { UpdateUser } from '../../dtos/update-user.interface';
 
 export const USER_REPOSITORY = 'USER_REPOSITORY';
 export interface UserRepositoryPort {
@@ -9,4 +10,5 @@ export interface UserRepositoryPort {
   findUserEmail(email: string): Promise<User | null>;
   findUserId(id: string): Promise<User | null>;
   findUsers(queryUser: QueryUser): Promise<FindAllResponseDto<UserResponse>>;
+  update(id: string, updateDto: UpdateUser): Promise<void>;
 }

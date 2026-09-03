@@ -16,6 +16,8 @@ import { FindAllResponseDto } from '../../../shared/domain/dtos/find-all-respons
 import { CreateUser } from '../../domain/dtos/create-user.interface';
 import { RoleService } from '../../../role/application/services/role.service';
 import { UserResponse } from '../../domain/dtos/user-response.interface';
+import { Role } from '../../../role/domain/entities/role.entity';
+import { UpdateUser } from '../../domain/dtos/update-user.interface';
 
 @Injectable()
 export class UserService {
@@ -64,5 +66,19 @@ export class UserService {
     const passwordHash = bcrypt.hashSync(password, this.saltRounds);
     const user = User.create(name, email, passwordHash, roleDb.id, roleDb, isActive);
     return this.userRepo.save(user);
+  }
+
+  async updateUser(id: string, updateDto: UpdateUser) {
+    const { role, password } = updateDto;
+    let roleDb: Role | null;
+    if (role) {
+      roleDb = await this.roleService.getByName(role);
+      if (!roleDb) throw new NotFoundException(`Role wih name ${role} not found`)
+    }
+    let passwordHash: string | undefined;
+    if (password) {
+      passwordHash = bcrypt.hashSync(password, this.saltRounds);
+    }
+    return this.userRepo.update(id, { ...updateDto, password: passwordHash, roleId: roleDb!.id })
   }
 }
