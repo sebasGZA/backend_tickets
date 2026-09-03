@@ -99,7 +99,22 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
   }
 
   async update(id: string, updateDto: UpdateTicket): Promise<void> {
-    const ticket = await this.repo.preload({ id, ...updateDto });
+    const ticket = await this.repo.preload({
+      id,
+      ...updateDto,
+      status: {
+        id: updateDto.statusId,
+      },
+      priority: {
+        id: updateDto.priorityId,
+      },
+      client: {
+        id: updateDto.clientId,
+      },
+      assignedTo: {
+        id: updateDto.assignedToId,
+      },
+    });
     if (!ticket) throw new NotFoundException(`Ticket with id ${id} not found`);
     await this.repo.save(ticket);
   }
@@ -124,6 +139,7 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         status: status.name,
         priority: priority.name,
         client: client.name,
+        clientId: client.id,
         assignedTo: assignedTo?.name,
         createdAt,
         closedAt,

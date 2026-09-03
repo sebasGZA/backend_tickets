@@ -1,3 +1,4 @@
+import { Client } from './../../../client/domain/entities/client.entity';
 import {
   ForbiddenException,
   Inject,
@@ -20,6 +21,8 @@ import { StatusService } from '../../../status/application/services/status.servi
 import { UpdateTicket } from '../../domain/dtos/update-ticket.interface';
 import { RoleEnum } from '../../../role/domain/enums/role.enum';
 import { StatusEnum } from '../../../status/domain/enums/status.enum';
+import { Priority } from 'src/priority/domain/entities/priority.entity';
+import { Status } from 'src/status/domain/entities/status.entity';
 
 @Injectable()
 export class TicketService {
@@ -69,8 +72,7 @@ export class TicketService {
     updateTicketDto: UpdateTicket,
     { userId, role }: UserMe,
   ) {
-    const { clientId, priorityId, statusId, assignedToId } = updateTicketDto;
-
+    const { clientId, priority, status, assignedToId } = updateTicketDto;
     if (role === RoleEnum.SOPORTE) {
       const ticket = await this.ticketRepo.findById(id);
       if (ticket?.createdById !== userId)
@@ -79,15 +81,24 @@ export class TicketService {
     if (role == RoleEnum.SOPORTE && updateTicketDto.closedAt) {
       throw new ForbiddenException('The user cannot update this ticket');
     }
+    let priorityDb: Priority | undefined;
+    let statusDb: Status | undefined;
 
     if (clientId) await this.clientService.getById(clientId);
-    if (priorityId) await this.priorityService.getById(priorityId);
-    if (statusId) {
-      const status = await this.statusService.getById(statusId);
-      if (status.name === StatusEnum.REABIERTO && role === RoleEnum.SOPORTE)
+
+    if (priority) {
+      priorityDb = await this.priorityService.getByName(priority);
+    }
+    if (status) {
+      statusDb = await this.statusService.getByName(status);
+      if (statusDb.name === StatusEnum.REABIERTO && role === RoleEnum.SOPORTE)
         throw new ForbiddenException('The user cannot update this ticket');
     }
     if (assignedToId) await this.userService.getUserById(assignedToId);
-    await this.ticketRepo.update(id, updateTicketDto);
+    await this.ticketRepo.update(id, {
+      ...updateTicketDto,
+      priorityId: priorityDb?.id,
+      statusId: statusDb?.id,
+    });
   }
 }
