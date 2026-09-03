@@ -14,7 +14,6 @@ export class Ticket {
     readonly updatedAt?: Date,
     readonly updatedById?: string,
     readonly closedAt?: Date,
-    readonly resolvedAt?: Date,
   ) {}
 
   static create(

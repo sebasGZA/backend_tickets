@@ -59,9 +59,6 @@ export class TicketTypeORMEntity {
   @Column({ name: 'closed_at', type: 'timestamp', nullable: true })
   closedAt?: Date;
 
-  @Column({ name: 'resolved_at', type: 'timestamp', nullable: true })
-  resolvedAt?: Date;
-
   @ManyToOne(() => StatusTypeORMEntity, (status) => status.tickets)
   @JoinColumn()
   status!: StatusTypeORMEntity;

@@ -11,5 +11,4 @@ export interface UpdateTicket {
   clientId?: string;
   assignedToId?: string;
   closedAt?: Date;
-  resolvedAt?: Date;
 }

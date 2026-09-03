@@ -14,5 +14,4 @@ export interface TicketResponse {
   assignedToId?: string;
   createdAt: Date;
   closedAt?: Date;
-  resolvedAt?: Date;
 }

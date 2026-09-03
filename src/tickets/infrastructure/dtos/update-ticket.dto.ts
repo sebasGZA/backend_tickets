@@ -13,13 +13,6 @@ export class UpdateTicketDto extends PartialType(CreateTicketDto) {
   closedAt?: Date;
 
   @ApiPropertyOptional({
-    description: 'Enter the resolvedAt date',
-  })
-  @IsOptional()
-  @IsDateString()
-  resolvedAt?: Date;
-
-  @ApiPropertyOptional({
     description: 'Enter the new status',
   })
   @IsOptional()

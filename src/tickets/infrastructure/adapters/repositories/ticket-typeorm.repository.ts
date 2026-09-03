@@ -82,7 +82,6 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
       assignedTo: ticket.assignedTo?.name,
       assignedToId: ticket.assignedToId,
       createdAt: ticket.createdAt,
-      resolvedAt: ticket.resolvedAt,
       closedAt: ticket.closedAt,
       createdBy: ticket.createdBy.name,
     };
@@ -210,7 +209,6 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         assignedTo,
         createdAt,
         closedAt,
-        resolvedAt,
         createdBy
       }) => ({
         id,
@@ -225,7 +223,6 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
         createdBy: createdBy.name,
         createdAt,
         closedAt,
-        resolvedAt,
       }),
     );
   }
