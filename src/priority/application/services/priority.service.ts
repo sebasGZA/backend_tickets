@@ -12,6 +12,7 @@ import {
 } from '../../domain/ports/repositories/priority-repository.port';
 import { Priority } from '../../domain/entities/priority.entity';
 import { CreatePriority } from '../../domain/dtos/create-priority.interface';
+import { PriorityEnum } from 'src/priority/domain/enums/priority.enum';
 
 @Injectable()
 export class PriorityService {
@@ -37,10 +38,17 @@ export class PriorityService {
     return this.priorityRepo.findAll();
   }
 
-  async getById(id: string): Promise<Priority | null> {
+  async getById(id: string): Promise<Priority> {
     const priority = await this.priorityRepo.findById(id);
     if (!priority)
       throw new NotFoundException(`Priority with id ${id} not found`);
+    return priority;
+  }
+
+  async getByName(name: PriorityEnum): Promise<Priority> {
+    const priority = await this.priorityRepo.findByName(name);
+    if (!priority)
+      throw new NotFoundException(`Priority with name ${name} not found`);
     return priority;
   }
 }

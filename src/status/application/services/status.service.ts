@@ -12,6 +12,7 @@ import {
 } from '../../domain/ports/repositories/status-repository.port';
 import { Status } from '../../domain/entities/status.entity';
 import { CreateStatus } from '../../domain/dtos/create-status.interface';
+import { StatusEnum } from 'src/status/domain/enums/status.enum';
 
 @Injectable()
 export class StatusService {
@@ -36,6 +37,13 @@ export class StatusService {
   async getById(id: string): Promise<Status> {
     const status = await this.statusRepo.findById(id);
     if (!status) throw new NotFoundException(`Status with id ${id} not found`);
+    return status;
+  }
+
+  async getByName(name: StatusEnum): Promise<Status> {
+    const status = await this.statusRepo.findByName(name);
+    if (!status)
+      throw new NotFoundException(`Status with name ${name} not found`);
     return status;
   }
 

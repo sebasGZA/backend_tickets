@@ -34,12 +34,23 @@ export class TicketService {
 
   async create(createDto: CreateTicket): Promise<void> {
     await this.clientService.getById(createDto.clientId);
-    await this.priorityService.getById(createDto.priorityId);
-    await this.statusService.getById(createDto.statusId);
+    const priority = await this.priorityService.getByName(createDto.priority);
+    const status = await this.statusService.getByName(StatusEnum.ABIERTO);
     if (createDto.assignedToId) {
       await this.userService.getUserById(createDto.assignedToId);
     }
-    const ticket = Ticket.create(createDto);
+    const { clientId, createdById, description, title, assignedToId } =
+      createDto;
+    const ticket = Ticket.create(
+      title,
+      description,
+      status.id,
+      priority.id,
+      clientId,
+      createdById,
+      undefined,
+      assignedToId,
+    );
     return this.ticketRepo.save(ticket);
   }
 

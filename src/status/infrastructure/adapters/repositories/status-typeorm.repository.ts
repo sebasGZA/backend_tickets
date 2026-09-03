@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { StatusRepositoryPort } from '../../../domain/ports/repositories/status-repository.port';
 import { StatusTypeORMEntity } from '../../persistence/status-typeorm.entity';
 import { Status } from '../../../domain/entities/status.entity';
+import { StatusEnum } from '../../../../status/domain/enums/status.enum';
 
 @Injectable()
 export class StatusTypeOrmRepository implements StatusRepositoryPort {
@@ -19,6 +20,10 @@ export class StatusTypeOrmRepository implements StatusRepositoryPort {
 
   findById(id: string): Promise<Status | null> {
     return this.repo.findOne({ where: { id } });
+  }
+
+  findByName(name: StatusEnum): Promise<Status | null> {
+    return this.repo.findOne({ where: { name } });
   }
 
   async findAll(): Promise<Status[]> {

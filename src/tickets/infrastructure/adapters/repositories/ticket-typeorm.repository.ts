@@ -17,8 +17,37 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
     private readonly repo: Repository<TicketTypeORMEntity>,
   ) {}
 
-  async save(ticket: Ticket): Promise<void> {
-    await this.repo.save(ticket);
+  async save({
+    id,
+    title,
+    description,
+    clientId,
+    priorityId,
+    createdById,
+    statusId,
+    assignedToId,
+  }: Ticket): Promise<void> {
+    const ticketDb = this.repo.create({
+      id,
+      title,
+      description,
+      client: {
+        id: clientId,
+      },
+      priority: {
+        id: priorityId,
+      },
+      status: {
+        id: statusId,
+      },
+      createdBy: {
+        id: createdById,
+      },
+      assignedTo: {
+        id: assignedToId,
+      },
+    });
+    await this.repo.save(ticketDb);
   }
 
   findById(id: string): Promise<Ticket | null> {

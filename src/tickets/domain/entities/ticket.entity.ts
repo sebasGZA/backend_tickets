@@ -17,16 +17,16 @@ export class Ticket {
     readonly resolvedAt?: Date,
   ) {}
 
-  static create({
-    title,
-    description,
-    statusId,
-    priorityId,
-    clientId,
-    createdById,
-    createdAt,
-    assignedToId,
-  }: CreateTicket): Ticket {
+  static create(
+    title: string,
+    description: string,
+    statusId: string,
+    priorityId: string,
+    clientId: string,
+    createdById: string,
+    createdAt?: Date,
+    assignedToId?: string,
+  ): Ticket {
     const id = crypto.randomUUID();
     return new Ticket(
       id,

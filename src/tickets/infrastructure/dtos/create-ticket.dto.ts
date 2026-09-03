@@ -1,5 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  IsUUID,
+} from 'class-validator';
+import { PriorityEnum } from 'src/priority/domain/enums/priority.enum';
 
 export class CreateTicketDto {
   @ApiProperty({
@@ -17,18 +24,11 @@ export class CreateTicketDto {
   description!: string;
 
   @ApiProperty({
-    description: "The ID of the ticket's status",
+    description: "The ticket's priority",
   })
   @IsNotEmpty()
-  @IsUUID()
-  statusId!: string;
-
-  @ApiProperty({
-    description: "The ID of the ticket's priority",
-  })
-  @IsNotEmpty()
-  @IsUUID()
-  priorityId!: string;
+  @IsEnum(PriorityEnum)
+  priority!: PriorityEnum;
 
   @ApiProperty({
     description: 'The ID of the client associated with the ticket',

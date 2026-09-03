@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { PriorityRepositoryPort } from '../../../domain/ports/repositories/priority-repository.port';
 import { PriorityTypeORMEntity } from '../../persistence/priority-typeorm.entity';
 import { Priority } from '../../../domain/entities/priority.entity';
+import { PriorityEnum } from '../../../domain/enums/priority.enum';
 
 @Injectable()
 export class PriorityTypeOrmRepository implements PriorityRepositoryPort {
@@ -24,6 +25,10 @@ export class PriorityTypeOrmRepository implements PriorityRepositoryPort {
 
   findById(id: string): Promise<Priority | null> {
     return this.repo.findOne({ where: { id } });
+  }
+
+  findByName(name: PriorityEnum): Promise<Priority | null> {
+    return this.repo.findOne({ where: { name } });
   }
 
   private transformResult(prioritiesDB: PriorityTypeORMEntity[]): Priority[] {
