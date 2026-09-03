@@ -108,4 +108,12 @@ export class TicketService {
       statusId: statusDb?.id,
     });
   }
+
+  ticketMetrics() {
+    return this.ticketRepo.ticketMetrics()
+  }
+
+  agentPerformance() {
+    return this.ticketRepo.agentPerformance()
+  }
 }

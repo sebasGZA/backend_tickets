@@ -1,5 +1,5 @@
 export enum StatusEnum {
   ABIERTO = 'Abierto',
-  EN_PROGRESSO = 'En_proceso',
+  EN_PROCESO = 'En_proceso',
   CERRADO = 'Cerrado',
 }

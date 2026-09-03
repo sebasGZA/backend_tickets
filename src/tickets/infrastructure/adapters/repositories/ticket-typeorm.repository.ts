@@ -9,6 +9,11 @@ import { QueryTicket } from '../../../domain/dtos/query-ticket.interface';
 import { FindAllResponseDto } from '../../../../shared/domain/dtos/find-all-response.interface';
 import { UpdateTicket } from '../../../domain/dtos/update-ticket.interface';
 import { TicketResponse } from '../../../domain/dtos/ticket-response.interface';
+import { StatusEnum } from '../../../../status/domain/enums/status.enum';
+import { PriorityEnum } from '../../../../priority/domain/enums/priority.enum';
+import { TicketMetric } from '../../../domain/dtos/ticket-metric.interface';
+import { AgentPerformance } from '../../../domain/dtos/agent-performance.interface';
+import { RoleEnum } from '../../../../role/domain/enums/role.enum';
 
 @Injectable()
 export class TicketTypeORMRepository implements TicketRepositoryPort {
@@ -147,6 +152,50 @@ export class TicketTypeORMRepository implements TicketRepositoryPort {
     });
     if (!ticket) throw new NotFoundException(`Ticket with id ${id} not found`);
     await this.repo.save(ticket);
+  }
+
+  async agentPerformance(): Promise<any[]> {
+    const queryBuilder = this.repo.createQueryBuilder('ticket')
+      .innerJoin('ticket.status', 'status')
+      .innerJoin('ticket.priority', 'priority')
+      .innerJoin('ticket.assignedTo', 'user')
+      .innerJoin('user.role', 'role')
+      .where('role.name = :roleName', { roleName: RoleEnum.SOPORTE })
+      .select([
+        'user.id AS "agentId"',
+        'user.name AS "agentName"',
+        'COUNT(ticket.id) AS "ticketsAssigned"',
+        `SUM(CASE WHEN status.name = 'Cerrado' THEN 1 ELSE 0 END) AS "ticketsResolved"`
+      ])
+      .groupBy('user.id')
+      .addGroupBy('user.name')
+
+
+    const result = await queryBuilder.getRawMany()
+    return result
+  }
+
+  async ticketMetrics(): Promise<TicketMetric> {
+    const queryBuilder = this.repo.createQueryBuilder('ticket')
+      .leftJoinAndSelect('ticket.status', 'status')
+      .leftJoinAndSelect('ticket.priority', 'priority')
+
+    const [data, total] = await queryBuilder.getManyAndCount()
+
+    return {
+      totalTickets: total,
+      openTickets: data.filter(d => d.status.name === StatusEnum.ABIERTO).length ?? 0,
+      closedTickets: data.filter(d => d.status.name === StatusEnum.CERRADO).length ?? 0,
+      inProcessTickets: data.filter(d => d.status.name === StatusEnum.EN_PROCESO).length ?? 0,
+      ticketsByPriority: {
+        Baja: data.filter(d => d.priority.name === PriorityEnum.BAJA).length ?? 0,
+        Media: data.filter(d => d.priority.name === PriorityEnum.MEDIA).length ?? 0,
+        Alta: data.filter(d => d.priority.name === PriorityEnum.ALTA).length ?? 0,
+        Critica: data.filter(d => d.priority.name === PriorityEnum.CRITICA).length ?? 0
+      },
+      overdueTickets: data.filter(d => d.updatedAt === null || !d.updatedAt).length ?? 0
+    }
+
   }
 
   private transformResult(ticketsDB: TicketTypeORMEntity[]): TicketResponse[] {

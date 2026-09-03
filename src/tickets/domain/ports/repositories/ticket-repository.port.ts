@@ -1,5 +1,7 @@
 import { FindAllResponseDto } from '../../../../shared/domain/dtos/find-all-response.interface';
+import { AgentPerformance } from '../../dtos/agent-performance.interface';
 import { QueryTicket } from '../../dtos/query-ticket.interface';
+import { TicketMetric } from '../../dtos/ticket-metric.interface';
 import { TicketResponse } from '../../dtos/ticket-response.interface';
 import { UpdateTicket } from '../../dtos/update-ticket.interface';
 import { Ticket } from '../../entities/ticket.entity';
@@ -14,4 +16,6 @@ export interface TicketRepositoryPort {
   findById(id: string): Promise<Ticket | null>;
   update(id: string, updateDto: UpdateTicket): Promise<void>;
   findByIdDetail(id: string): Promise<TicketResponse>;
+  ticketMetrics(): Promise<TicketMetric>;
+  agentPerformance(): Promise<AgentPerformance[]>;
 }

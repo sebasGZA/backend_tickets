@@ -50,7 +50,7 @@ const statusesToCreate = async (app: INestApplicationContext) => {
 
   const statusToCreate = [
     StatusEnum.ABIERTO,
-    StatusEnum.EN_PROGRESSO,
+    StatusEnum.EN_PROCESO,
     StatusEnum.CERRADO,
   ];
 
